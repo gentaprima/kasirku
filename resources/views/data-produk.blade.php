@@ -31,8 +31,8 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="card p-5 rounded mb-3">
-                <div class="row">
+            <div class="card p-4 rounded mb-3">
+                <!-- <div class="row">
                     <div class="col-6">
                         <button class="btn btn-outline-primary size-btn" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
                     </div>
@@ -44,8 +44,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <table id="table" class="table table-striped mt-2">
+                </div> -->
+                <button class="btn btn-outline-primary size-btn" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
+                <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -53,16 +54,34 @@
                             <th>Harga</th>
                             <th>Kategori</th>
                             <th>Aktif</th>
-                            <th>Photo</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                        <?php $i = 1; ?>
+                        <?php foreach ($dataProduct as $row) { ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $row->product_name; ?></td>
+                                <td><?= $row->price; ?></td>
+                                <td><span class="badge badge-secondary"><?= $row->product_category; ?></span> </td>
+                                <td>
+                                    <?php if ($row->is_active == 1) { ?>
+                                        <span class="badge badge-success">Aktif</span>
+                                    <?php } else { ?>
+                                        <span class="badge badge-danger">Tidak Aktif</span>
+                                    <?php } ?>
+                                </td>
+                                <td>
+                                    <button onclick="updateData('<?= $row->id ?>','<?= $row->product_name ?>','<?= $row->product_category ?>','<?= $row->price ?>','<?= $row->is_active ?>','<?= $row->group ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
+                                    <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
 
                 </table>
-                <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                <!-- <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                     <ul class="pagination">
                         <li>Halaman</li>
                         <li class="paginate_button active mr-2"><a href="#" aria-controls="example1" id="current_page" data-dt-idx="1" tabindex="0">1</a></li>
@@ -71,7 +90,7 @@
                         <li class="paginate_button next prev" id="example1_previous"><a href="#" aria-controls="example1" id="link_prev" data-dt-idx="0" tabindex="0"><i class="fa fa-chevron-left"></i></a></li>
                         <li class="paginate_button next" id="example1_next"><a id="link_next" href="" aria-controls="example1" data-dt-idx="2" tabindex="0"><i class="fa fa-chevron-right"></i></a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div><!-- /.container-fluid -->
     </section>
@@ -111,7 +130,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Photo</label>
                         <div class="col-sm-10">
                             <div class="input-group">
@@ -119,13 +138,11 @@
                                     <input type="file" required class="custom-file-input" name="image" id="imagePick">
                                     <label id="labelNamePhoto" class="custom-file-label" for="imagePick">Choose file</label>
                                 </div>
-                                <!-- <div class="input-group-append">
-                                    <span class="input-group-text">Upload</span>
-                                </div> -->
+                                
                             </div>
                             <p id="labelPhoto" class="mt-1">(kosongkan jika tidak ingin mengubah foto)</p>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                         <label for="" class="col-sm-2">Status</label>
                         <div class="col-sm-10">
@@ -353,7 +370,7 @@
                     }
 
                     tr.append(` <td><span class='badge badge-secondary badge-photo' onclick="showImage('${data.data.data[i].photo}','${data.linkPhoto}')" data-target="#modal-image" data-toggle="modal">Lihat Foto</span></td>`);
-                   
+
                     tr.append(`
                     <td>
                     <button onclick="updateData('${data.data.data[i].id}','${data.data.data[i].product_name}','${data.data.data[i].product_category}','${data.data.data[i].price}','${data.data.data[i].is_active}','${data.data.data[i].photo}','${data.data.data[i].group}')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
@@ -373,14 +390,14 @@
         document.getElementById("imageBanner").src = path + '/' + image;
     }
 
-    function updateData(id, productName, productCategory, price, isActive, photo, group) {
+    function updateData(id, productName, productCategory, price, isActive, group) {
         console.log(productCategory);
         document.getElementById("productName").value = productName;
         document.getElementById("productCategory").value = productCategory;
         document.getElementById("price").value = price;
         document.getElementById("group").value = group;
-        document.getElementById("labelNamePhoto").innerHTML = photo;
-        document.getElementById("labelPhoto").hidden = false;
+        // document.getElementById("labelNamePhoto").innerHTML = photo;
+        // document.getElementById("labelPhoto").hidden = false;
         document.getElementById("form").action = `/update-produk/${id}`;
         document.getElementById("titleModal").innerHTML = 'Perbarui Produk';
         if (isActive == 0) {
@@ -391,8 +408,8 @@
             document.getElementById('radioStatus2').checked = false;
         }
 
-        let requiredImage = document.getElementById("imagePick");
-        requiredImage.removeAttribute('required', '')
+        // let requiredImage = document.getElementById("imagePick");
+        // requiredImage.removeAttribute('required', '')
 
     }
 
@@ -400,9 +417,9 @@
         document.getElementById("productName").value = "";
         document.getElementById("productCategory").value = "";
         document.getElementById("price").value = "";
-        document.getElementById("labelNamePhoto").innerHTML = '';
+        // document.getElementById("labelNamePhoto").innerHTML = '';
         document.getElementById("group").value = '';
-        document.getElementById("labelPhoto").hidden = true;
+        // document.getElementById("labelPhoto").hidden = true;
         document.getElementById("form").action = '/add-produk';
         document.getElementById("titleModal").innerHTML = 'Tambah Produk';
         document.getElementById('radioStatus1').checked = false;

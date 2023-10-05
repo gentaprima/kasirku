@@ -31,8 +31,8 @@
 
     <section class="content">
         <div class="container-fluid">
-            <div class="card p-5 rounded mb-3">
-                <div class="row">
+            <div class="card rounded mb-3">
+                <!-- <div class="row">
                     <div class="col-6">
                         <button class="btn btn-outline-primary size-btn" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
                     </div>
@@ -44,8 +44,39 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <div class="card-body">
+                    <button class="btn btn-outline-primary size-btn mb-2" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Lengkap</th>
+                                <th>Email</th>
+                                <th>No Telepon</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; ?>
+                            <?php foreach ($dataKaryawan as $row) { ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $row->nama_lengkap ?></td>
+                                    <td><?= $row->email ?></td>
+                                    <td><?= $row->nomor_telepon ?></td>
+                                    <td><?= $row->jenis_kelamin ?></td>
+                                    <td>
+                                        <button onclick="updateData('<?= $row->id ?>','<?= $row->nama_lengkap ?>','<?= $row->email ?>','<?= $row->tgl_lahir ?>','<?= $row->jenis_kelamin ?>','<?= $row->nomor_telepon ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
+                                        <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
-                <table id="table" class="table table-striped mt-2">
+                <!-- <table id="table" class="table table-striped mt-2">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -70,7 +101,7 @@
                         <li class="paginate_button next prev" id="example1_previous"><a href="#" aria-controls="example1" id="link_prev" data-dt-idx="0" tabindex="0"><i class="fa fa-chevron-left"></i></a></li>
                         <li class="paginate_button next" id="example1_next"><a id="link_next" href="" aria-controls="example1" data-dt-idx="2" tabindex="0"><i class="fa fa-chevron-right"></i></a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </div><!-- /.container-fluid -->
     </section>

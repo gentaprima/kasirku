@@ -41,53 +41,47 @@ use Illuminate\Support\Facades\Session;
   <!-- jQuery UI 1.11.4 -->
   <script src="{{asset('dashboard/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  
+
 
   <style>
-    .badge-photo:hover{
+    .badge-photo:hover {
       cursor: pointer;
     }
+
+    .navbar-nav li a{
+      color: #fff !important;
+    }
   </style>
-  
+
 </head>
 
 <body class="sidebar-mini layout-fixed">
   <div class="wrapper" style="background-color: #f4f6f9;">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light  style-header">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="padding:19px 0.5rem !important;background-color:#967E76;">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
-        <!-- <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"
-              style="color:#fff"></i></a>
-        </li> -->
-        <li class="nav-item header d-none d-sm-inline-block">
-          <a href="/" class="nav-link">@yield('title-link')</a>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item header d-none d-sm-inline-block">
-          <i class="fa fa-chevron-right"></i>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="index3.html" class="nav-link">@yield('title-link')</a>
         </li>
-        <li class="nav-item header d-none d-sm-inline-block">
+        <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">@yield('sub-title-link')</a>
         </li>
       </ul>
-      @if(Session::has('message'))
-      <p hidden="true" id="message">{{ Session::get('message') }}</p>
-      <p hidden="true" id="icon">{{ Session::get('icon') }}</p>
-      @endif
 
+    
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
-        <!-- Messages Dropdown Menu -->
-
-        <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#" style="height: 0px !important;">
             <?php if (Session::get('dataUsers')->foto == null) { ?>
-              <img style="margin-top: -25px;border:3px solid #fff;height:50px;" class="img-size-50 img-circle" src="{{asset('LOGO_TVUPI_PLAYSTORE_1.png')}}" alt="">
+              <img style="margin-top: -25px;border:3px solid #fff;height:50px;" class="img-size-50 img-circle" src="{{asset('warkop.jpg')}}" alt="">
             <?php } else { ?>
-              <img  style="margin-top: -25px;border:3px solid #fff;height:50px;" class="img-size-50 img-circle" src="{{asset('uploads/profile')}}/{{Session::get('dataUsers')->foto}}" alt="">
+              <img style="margin-top: -25px;border:3px solid #fff;height:50px;" class="img-size-50 img-circle" src="{{asset('uploads/profile')}}/{{Session::get('dataUsers')->foto}}" alt="">
             <?php } ?>
             <!-- <img src="{{asset('LOGO_TVUPI_PLAYSTORE_1.png')}}" alt="User Avatar" style="margin-top: -25px;border:3px solid #fff;height:50px;" class="img-size-50 img-circle"> -->
           </a>
@@ -112,7 +106,7 @@ use Illuminate\Support\Facades\Session;
       <!-- Brand Logo -->
       <a href="index3.html" class="brand-link mb-3" style="margin-top:21px;">
         <!-- <img src="{{ asset('warkop.jpg') }}" alt="AdminLTE Logo" class="brand-image" style="width: 150px; "> -->
-        <span class="brand-text font-weight-light" style="color:#FFF;">.</span>
+        <span class="brand-text font-weight-light" style="color:#000;">Warkop Tepi Sungai</span>
       </a>
 
       <!-- Sidebar -->
@@ -146,13 +140,13 @@ use Illuminate\Support\Facades\Session;
             </li>
             <li class="nav-item">
               <a href="/data-produk" class="nav-link {{ Request::is('data-produk') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-images"></i>
+                <i class="nav-icon fas fa-list"></i>
                 <p>
                   Produk
                 </p>
               </a>
             </li>
-            
+
             <li class="nav-item">
               <a href="/jadwal-siaran" class="nav-link {{ Request::is('jadwal-siaran') ||  Request::is('ubah-siaran') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-calendar"></i>
@@ -201,7 +195,7 @@ use Illuminate\Support\Facades\Session;
   <!-- ./wrapper -->
 
   <!-- jQuery -->
-  
+
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
     $.widget.bridge('uibutton', $.ui.button)

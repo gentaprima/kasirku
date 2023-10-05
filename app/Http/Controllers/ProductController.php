@@ -33,16 +33,19 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        $imageProduct = $request->file('image');
-        $filename = uniqid() . time() . "."  . explode("/", $imageProduct->getMimeType())[1];
-        Storage::disk('uploads')->put('product/' . $filename, File::get($imageProduct));
+        if($request->imageProduct != ""){
+
+            $imageProduct = $request->file('image');
+            $filename = uniqid() . time() . "."  . explode("/", $imageProduct->getMimeType())[1];
+            Storage::disk('uploads')->put('product/' . $filename, File::get($imageProduct));
+        }
 
         ModelProduct::create([
             'product_name' => $request->productName,
             'product_category' => $request->productCategory,
             'price' => $request->price,
             'is_active' => $request->isActive,
-            'photo' => $filename,
+            'photo' => "",
             'group' => $request->group != null ? $request->group : $request->productName,
             'stock_reduction' => $request->stockReduction != null ? $request->stockReduction : 1,
         ]);

@@ -91,6 +91,8 @@ class TransactionController extends Controller
                                     ->select(DB::raw('tbl_product.group,sum(quantity*stock_reduction)as barang_keluar'))
                                     ->join('tbl_cart','tbl_transaction.id_cart','=','tbl_cart.id')
                                     ->join('tbl_product','tbl_cart.id_product','=','tbl_product.id')
+                                    ->whereDate('tbl_transaction.created_at','=',Carbon::today())
+                                    ->orderBy('tbl_product.group')
                                     ->groupBy('tbl_product.group')->get();
         
         return response()->json([
