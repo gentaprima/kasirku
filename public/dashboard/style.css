@@ -1,0 +1,237 @@
+.style-header {
+    left: 54px;
+    right: 0px;
+    background: #967E76;
+    color: #fff;
+    border-bottom-right-radius: 10px;
+    height: 80px;
+    border-bottom-left-radius: 10px;
+    margin-right: 80px;
+}
+
+.nav-item.header>a {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.nav-item.header>i {
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.brand-text {
+    color: #000;
+    font-weight: bold !important;
+}
+
+.rounded {
+    border-radius: 10px !important;
+}
+
+.table th {
+    background-color: #967E76;
+    color: #fff;
+}
+
+.page-item.active .page-link {
+    background-color: #967E76 !important;
+    border-color: #967E76 !important;
+}
+
+.btn-outline-primary {
+    background-color: transparent !important;
+    border-color: #967E76 !important;
+    color: #967E76 !important;
+    border-radius: 10px;
+
+}
+
+.size-btn {
+    width: 120px;
+}
+
+.modal-content {
+    border: none !important;
+}
+
+.rounded-modal {
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+
+.btn-secondary {
+    border: none !important;
+    color: #707070 !important;
+    background-color: #e6e7e8 !important;
+}
+
+.btn-primary {
+    border: none;
+    color: #fff !important;
+    background-color: #967E76 !important;
+}
+
+.name-user:first-letter {
+    text-transform: uppercase
+}
+
+.toastify {
+    top: 100px !important;
+}
+
+.colored-toast.swal2-icon-success {
+    background-color: #a5dc86 !important;
+}
+
+.colored-toast.swal2-icon-error {
+    background-color: #f27474 !important;
+}
+
+.colored-toast.swal2-icon-warning {
+    background-color: #f8bb86 !important;
+}
+
+.btn-outline-white {
+    border-color: #fff !important;
+    color: #fff !important;
+}
+
+
+.sidebar-dark-danger .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-danger .nav-sidebar>.nav-item>.nav-link.active {
+    color: #fff !important;
+    background-color: #967E76 !important;
+}
+
+
+.colorGrey {
+    background-color: #B9B9B9;
+    color: #FFF;
+}
+
+.search {
+    background-color: #b9b9b93b;
+    color: #FFF;
+    width: 300px;
+    float: right;
+    border-radius: 10px;
+
+}
+
+.search>.form-control {
+    background-color: #e8e6e6;
+    border: none;
+    border-radius: 10px;
+}
+
+.input-group-text {
+
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e8e6e6;
+    border: none;
+    border-radius: 10px;
+}
+
+
+.form-control {
+    background-color: #e8e6e6 !important;
+    border: none !important;
+    border-radius: 10px !important;
+}
+
+.custom-file>label {
+    background-color: #e8e6e6 !important;
+    border: none !important;
+    border-radius: 10px !important;
+}
+
+.mcp-stream-online {
+    color: #5eff00;
+    font-weight: bold;
+}
+
+.mcp-stream-offline {
+    color: #967E76;
+    font-weight: bold;
+}
+
+#example1_paginate {
+    display: none;
+}
+
+#example2_paginate {
+    float: right;
+    margin-left: auto;
+}
+
+.paginate_button.next  > a {
+    margin-left: 8px;
+    background-color: #001f3f!important;
+    border-radius: 4px !important;
+    color: #fff;
+    padding: 5px 8px 5px 8px;
+  }
+  .paginate_button.active  > a {
+    background-color: #967E76 !important;
+    border-radius: 4px;
+    margin-left: 8px;
+    height: 32px;
+    width: 32px;
+    color: #fff;
+    padding: 5px 8px 5px 8px;
+  } 
+
+  .paginate_button.next > a > i{
+    position: relative;
+    top: 1px;
+  }
+  .paginate_button.next.prev.disabledd > a >i {
+    position: relative;
+    top: 1px;
+  }
+  .paginate_button.next.prev.disabledd > a {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+  .paginate_button.next.disabledd > a {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+  .paginate_button.previous{
+    margin-right: 8px !important;
+    border: none !important;
+    font-weight: bold !important;
+    color: #eee !important;
+    background-color: #001f3f!important;
+  }
+  .paginate_button.previous > a:hover{
+    color : #FFF;
+    cursor: pointer;
+  }
+  .paginate_button.next > a:hover{
+    color : #FFF;
+    cursor: pointer;    
+ 
+  }
+  
+  .paginate_button.next > a:focus{
+    color : #FFF;
+  }
+
+  .border-search{
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+  }
