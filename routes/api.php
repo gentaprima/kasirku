@@ -25,5 +25,5 @@ Route::post('/min-cart','CartController@minCart');
 Route::get('/get-topping/{id}','ToppingController@getData');
 // transaction
 Route::post('/add-transaction','TransactionController@store');
-Route::get('/get-income','TransactionController@getIncome');
-Route::get('/get-exit-item','TransactionController@getExitItem');
+Route::post('/get-income','TransactionController@getIncome');
+Route::post('/get-exit-item','TransactionController@getExitItem');

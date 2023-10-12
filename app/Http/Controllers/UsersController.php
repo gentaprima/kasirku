@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ModelUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
@@ -75,7 +76,8 @@ class UsersController extends Controller
             'email'     => $request->email,
             'nama_lengkap'  => $request->fullName,
             'jenis_kelamin'         => $request->gender,
-            'nomor_telepon'        => $request->phoneNumber
+            'nomor_telepon'        => $request->phoneNumber,
+            'password'      => Hash::make('1234')
         ]);
 
         Session::flash('message', 'Karyawan berhasil ditambahkan.');
