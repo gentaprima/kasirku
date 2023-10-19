@@ -13,16 +13,17 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function getProductJson(Request $request){
+    public function getProductJson(Request $request)
+    {
         if ($request->search != '') {
             $dataProduct = DB::table('tbl_product')
-                    ->where('product_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('price', 'like', '%' . $request->search . '%')
-                    ->orWhere('product_category', 'like', '%' . $request->search . '%')
-                    ->paginate(10);
+                ->where('product_name', 'like', '%' . $request->search . '%')
+                ->orWhere('price', 'like', '%' . $request->search . '%')
+                ->orWhere('product_category', 'like', '%' . $request->search . '%')
+                ->paginate(10);
         } else {
             $dataProduct = DB::table('tbl_product')
-                          ->paginate(10);
+                ->paginate(10);
         }
 
         return response()->json([
@@ -32,8 +33,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(Request $request){
-        if($request->imageProduct != ""){
+    public function store(Request $request)
+    {
+        if ($request->imageProduct != "") {
 
             $imageProduct = $request->file('image');
             $filename = uniqid() . time() . "."  . explode("/", $imageProduct->getMimeType())[1];
@@ -54,10 +56,10 @@ class ProductController extends Controller
         Session::flash('icon', 'success');
         return redirect()->back()
             ->withInput($request->input());
-
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $imageProduct = $request->file('image');
         $product = ModelProduct::find($id);
         if ($imageProduct == null) {
@@ -83,7 +85,8 @@ class ProductController extends Controller
             ->withInput($request->input());
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $product = ModelProduct::find($id);
         $fileName = public_path() . '/uploads/product/' . $product['photo'];
         unlink($fileName);
@@ -94,16 +97,28 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
+    public function updateStock(Request $request)
+    {
+        DB::table('tbl_product')
+            ->where('tbl_product.group', '=', $request->group)
+            ->update([
+                'stock' => $request->stock
+            ]);
+        Session::flash('message', 'Stock Produk berhasil diperbarui.');
+        Session::flash('icon', 'success');
+        return redirect()->back();
+    }
+
     // API
-    public function getProduct(Request $request){
+    public function getProduct(Request $request)
+    {
         $data = DB::table('tbl_product')
-                    ->where('product_category','=',$request->category)
-                    ->where('product_name','like','%' . $request->search . '%')->get();
+            ->where('product_category', '=', $request->category)
+            ->where('product_name', 'like', '%' . $request->search . '%')->get();
 
         return response()->json([
             'data' => $data,
             'success' => true
         ]);
     }
-
 }

@@ -148,23 +148,23 @@ use Illuminate\Support\Facades\Session;
             </li>
 
             <li class="nav-item">
-              <a href="/jadwal-siaran" class="nav-link {{ Request::is('jadwal-siaran') ||  Request::is('ubah-siaran') ? 'active' : '' }}">
+              <a href="/stock" class="nav-link {{ Request::is('stock') ||  Request::is('stock') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-bars"></i>
+                <p>
+                  Data Stock
+                </p>
+              </a>
+            </li>
+           
+            <li class="nav-item">
+              <a href="/transaction" class="nav-link {{ Request::is('transaction') ||  Request::is('transaction') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
                   Transaksi
                 </p>
               </a>
             </li>
-            @php if(Session::get('dataUsers')->role == 1){ @endphp
-            <li class="nav-item">
-              <a href="/data-pengguna" class="nav-link {{ Request::is('data-pengguna')  ? 'active' : '' }}">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                  Manajemen Pengguna
-                </p>
-              </a>
-            </li>
-            @php } @endphp
+           
 
 
 

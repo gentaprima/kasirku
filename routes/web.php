@@ -28,6 +28,8 @@ Route::group(['middleware' => 'check.login','prefix' => '/'],function(){
     Route::post('/add-produk','ProductController@store');
     Route::post('/update-produk/{id}','ProductController@update');
     Route::get('/delete-produk/{id}','ProductController@destroy');
+    Route::get('/stock','DashboardController@stock');
+    Route::post('/update-stock','ProductController@updateStock');
 
     // karyawan
     Route::get('/data-karyawan','DashboardController@getKaryawan');
@@ -40,6 +42,9 @@ Route::group(['middleware' => 'check.login','prefix' => '/'],function(){
     // topping
     Route::post('/add-topping','ToppingController@store');
     Route::get('/get-data-topping/{id}','ToppingController@getData');
+
+    //transaction
+    Route::get('/transaction','DashboardController@transaction');
 
     Route::get('/logout', function () {
         Session::flush();
