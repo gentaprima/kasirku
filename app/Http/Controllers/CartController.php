@@ -33,7 +33,7 @@ class CartController extends Controller
         $topping = $request->topping;
         $idUsers = $request->idUsers;
 
-        if($topping == ""){
+        if ($topping == "") {
             return response()->json([
                 'message' => "Silahkan pilih topping terlebih dahulu.",
                 'success' => false
@@ -42,7 +42,7 @@ class CartController extends Controller
 
         $dataProduct = DB::table('tbl_product')->where('id', '=', $idProduct)->first();
 
-        $checkProductInCart = DB::table('tbl_cart')->where('id_product', '=', $idProduct)->where('topping', '=', $topping)->where('is_order', '=', 0)->where('id_users','=',$idUsers)->first();
+        $checkProductInCart = DB::table('tbl_cart')->where('id_product', '=', $idProduct)->where('topping', '=', $topping)->where('is_order', '=', 0)->where('id_users', '=', $idUsers)->first();
         if ($checkProductInCart != null) {
             // $total = $dataProduct->price + $dataTopping->price;
             $totalTopping = 0;
@@ -57,6 +57,17 @@ class CartController extends Controller
             $cart->quantity = $checkProductInCart->quantity + 1;
             $cart->total = $totalAfterTopping * ($checkProductInCart->quantity + 1);
             $cart->save();
+
+            //update stock
+            $getProduct = DB::table('tbl_product')->where('id', '=', $idProduct)->first();
+            // $exitItem = ($checkProductInCart->quantity + 1) * $getProduct->stock_reduction;
+            // dd($exitItem);
+            $stockAfterExit = $getProduct->stock - $getProduct->stock_reduction;
+            DB::table('tbl_product')
+                ->where('tbl_product.group', '=', $getProduct->group)
+                ->update([
+                    'stock' => $stockAfterExit
+                ]);
         } else {
             $totalTopping = 0;
             $explodeTopping = explode(",", $topping);
@@ -78,6 +89,17 @@ class CartController extends Controller
                 'topping'       => $topping,
                 'id_users'      => $idUsers
             ]);
+
+            //update stock
+
+            $getProduct = DB::table('tbl_product')->where('id', '=', $idProduct)->first();
+            $exitItem =   $getProduct->stock_reduction;
+            $stockAfterExit = $getProduct->stock - $exitItem;
+            DB::table('tbl_product')
+                ->where('tbl_product.group', '=', $getProduct->group)
+                ->update([
+                    'stock' => $stockAfterExit
+                ]);
         }
 
 
@@ -95,15 +117,10 @@ class CartController extends Controller
 
         $dataProduct = DB::table('tbl_product')->where('id', '=', $idProduct)->first();
 
-        $checkProductInCart = DB::table('tbl_cart')->where('id_product', '=', $idProduct)->where('topping', '=', $topping)->where('is_order', '=', 0)->where('id_users','=',$idUsers)->first();
+        $checkProductInCart = DB::table('tbl_cart')->where('id_product', '=', $idProduct)->where('topping', '=', $topping)->where('is_order', '=', 0)->where('id_users', '=', $idUsers)->first();
         if ($checkProductInCart != null) {
             $cart = ModelCart::find($checkProductInCart->id);
             if ($checkProductInCart->quantity - 1 != 0) {
-                // $total = $dataProduct->price + $dataTopping->price;
-                // $cart->quantity = $checkProductInCart->quantity - 1;
-                // $cart->total = $total * ($checkProductInCart->quantity - 1);
-                // $cart->save();
-                // $total = $dataProduct->price + $dataTopping->price;
                 $totalTopping = 0;
                 $explodeTopping = explode(",", $topping);
                 for ($i = 0; $i < count($explodeTopping); $i++) {
@@ -116,8 +133,28 @@ class CartController extends Controller
                 $cart->quantity = $checkProductInCart->quantity - 1;
                 $cart->total = $totalAfterTopping * ($checkProductInCart->quantity - 1);
                 $cart->save();
+
+                $getProduct = DB::table('tbl_product')->where('id', '=', $idProduct)->first();
+                // $exitItem = ($checkProductInCart->quantity - 1) * $getProduct->stock_reduction;
+                $stockAfterExit = $getProduct->stock + $getProduct->stock_reduction;
+                DB::table('tbl_product')
+                    ->where('tbl_product.group', '=', $getProduct->group)
+                    ->update([
+                        'stock' => $stockAfterExit
+                    ]);
             } else {
+                //update stock
+                $getProduct = DB::table('tbl_product')->where('id', '=', $idProduct)->first();
+                // $exitItem = $checkProductInCart->quantity * $getProduct->stock_reduction;
+                $stockAfterExit = $getProduct->stock + $getProduct->stock_reduction;
+                DB::table('tbl_product')
+                    ->where('tbl_product.group', '=', $getProduct->group)
+                    ->update([
+                        'stock' => $stockAfterExit
+                    ]);
                 $cart->delete();
+
+                
             }
         } else {
             // ModelCart::create([

@@ -51,7 +51,6 @@
                             <th>No</th>
                             <th>Nama Produk</th>
                             <th>Sisa Stock</th>
-                            <th>Stock Keluar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -62,7 +61,6 @@
                                 <td><?= $i++; ?></td>
                                 <td><?= $row->group; ?></td>
                                 <td><?= $row->stock; ?></td>
-                                <td><?= $row->remaining_stock; ?></td>
                                 <td>
                                     <button onclick="updateData('<?= $row->id ?>','<?= $row->product_name ?>','<?= $row->stock ?>','<?= $row->remaining_stock ?>','<?= $row->group ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
                                     <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
