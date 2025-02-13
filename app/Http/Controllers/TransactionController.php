@@ -177,31 +177,40 @@ class TransactionController extends Controller
         foreach ($dataProduct as $product) {
             $textMessage .= "🔹 " . $product->product_name . ": *" . $product->stock . " pcs*\n";
         }
+
         $apiUrl = "https://messages-sandbox.nexmo.com/v1/messages";
         $apiKey = "8bbdaf30";
         $apiSecret = "A6Fy1lM78uDE4ISl";
-        $data = [
-            "from" => "14157386102",
-            "to" => "6289669615426",
-            "message_type" => "text",
-            "text" => $textMessage,
-            "channel" => "whatsapp"
-        ];
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Content-Type: application/json",
-            "Accept: application/json"
-        ]);
-        curl_setopt($ch, CURLOPT_USERPWD, "$apiKey:$apiSecret");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $recipient = ['6289669615426', '6285157289899'];
 
-        $response = curl_exec($ch);
-        curl_close($ch);
+        foreach ($recipient as $recipient) {
+            $data = [
+                "from" => "14157386102",
+                "to" => $recipient,
+                "message_type" => "text",
+                "text" => $textMessage,
+                "channel" => "whatsapp"
+            ];
 
-        return json_decode($response, true);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $apiUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                "Content-Type: application/json",
+                "Accept: application/json"
+            ]);
+            curl_setopt($ch, CURLOPT_USERPWD, "$apiKey:$apiSecret");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            // Log atau debugging (opsional)
+            // echo "Response for $recipient: " . json_encode($response) . "\n";
+        }
+
+        return response()->json(["status" => "Messages sent successfully"]);
     }
 }
