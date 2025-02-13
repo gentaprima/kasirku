@@ -17,15 +17,17 @@ class TransactionController extends Controller
         $idUsers = $request->idUsers;
         $total = $request->total;
 
-        $dataCart = DB::table('tbl_cart')->where('id_users', '=', $idUsers)->where('is_order', '=', 0)->get();
+        $dataCart = DB::table('tbl_cart')
+            ->select('tbl_cart.*', 'tbl_product.id as id_product', 'tbl_product.product_name', 'tbl_product.product_category', 'tbl_product.group', 'tbl_product.stock_reduction', 'tbl_product.stock', 'tbl_product.remaining_stock')
+            ->where('id_users', '=', $idUsers)->where('is_order', '=', 0)
+            ->join('tbl_product', 'tbl_cart.id_product', '=', 'tbl_product.id')->get();
         $dataTransaction = [];
         for ($i = 0; $i < count($dataCart); $i++) {
             $product = DB::table('tbl_product')->where('id', '=', $dataCart[$i]->id_product)->first();
             $reductStock = $product->stock_reduction * $dataCart[$i]->quantity;
             $remainStock = $product->stock - $reductStock;
-            $productUpdate = ModelProduct::find($dataCart[$i]->id_product);
-            $productUpdate->stock = $remainStock;
-            $productUpdate->save();
+            $productUpdate = ModelProduct::where('group', $dataCart[$i]->group);
+            $productUpdate->update(['stock' => $remainStock]);
         }
 
 
@@ -42,6 +44,7 @@ class TransactionController extends Controller
 
             // update cart
             $dataCartUpdate = ModelCart::find($dataCart[$i]->id);
+
             $dataCartUpdate->is_order = 1;
             $dataCartUpdate->save();
         }
