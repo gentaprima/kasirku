@@ -46,6 +46,9 @@ Route::group(['middleware' => 'check.login','prefix' => '/'],function(){
     //transaction
     Route::get('/transaction','DashboardController@transaction');
 
+    // input barang
+    Route::get('/input-barang','DashboardController@input');
+
     Route::get('/logout', function () {
         Session::flush();
         return redirect('/');

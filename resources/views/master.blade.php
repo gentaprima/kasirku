@@ -114,6 +114,7 @@ use Illuminate\Support\Facades\Session;
 
         <!-- SidebarSearch Form -->
         <div class="form-inline">
+          <p id="idUsers" style="display: none;"><?= Session::get("dataUsers")->id ?></p>
         </div>
 
         <!-- Sidebar Menu -->
@@ -143,6 +144,14 @@ use Illuminate\Support\Facades\Session;
                 <i class="nav-icon fas fa-list"></i>
                 <p>
                   Produk
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/input-barang" class="nav-link {{ Request::is('input-barang') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-edit"></i>
+                <p>
+                  Input Barang
                 </p>
               </a>
             </li>

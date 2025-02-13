@@ -25,6 +25,9 @@
     color: #000;
     font-weight: bold !important;
 }
+.text-primary{
+    color:#967E76 !important;
+}
 
 .rounded {
     border-radius: 10px !important;
@@ -71,6 +74,9 @@
     border: none;
     color: #fff !important;
     background-color: #967E76 !important;
+}
+.btn-primary:hover {
+    cursor: pointer;
 }
 
 .name-user:first-letter {

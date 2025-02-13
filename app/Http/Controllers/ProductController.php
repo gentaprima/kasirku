@@ -111,10 +111,10 @@ class ProductController extends Controller
 
     // API
     public function getProduct(Request $request)
-    {
+    {   
         $data = DB::table('tbl_product')
             ->where('product_category', '=', $request->category)
-            ->where('product_name', 'like', '%' . $request->search . '%')->get();
+            ->where('product_name', 'like', '%' . $request->search . '%')->paginate(10);
 
         return response()->json([
             'data' => $data,

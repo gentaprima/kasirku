@@ -101,6 +101,7 @@ class DashboardController extends Controller
     {
         $dataStock = DB::table('tbl_product')
             ->groupBy('tbl_product.group')->get();
+
         $data['stock'] = $dataStock;
         return view('data-stock', $data);
     }
@@ -147,5 +148,9 @@ class DashboardController extends Controller
         $data['totalToday'] = $totalToday;
         $data['filter'] = $firstdate != null ? true : false;
         return view('data-transaction', $data);
+    }
+
+    public function input(){
+        return view('input-barang');
     }
 }

@@ -27,3 +27,4 @@ Route::get('/get-topping/{id}','ToppingController@getData');
 Route::post('/add-transaction','TransactionController@store');
 Route::post('/get-income','TransactionController@getIncome');
 Route::post('/get-exit-item','TransactionController@getExitItem');
+Route::get('/send-wa','TransactionController@sendWhatsAppMessage');

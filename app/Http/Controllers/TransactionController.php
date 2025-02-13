@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ModelCart;
+use App\Models\ModelProduct;
 use App\Models\ModelTransaction;
 use DateTime;
 use Illuminate\Http\Request;
@@ -18,6 +19,15 @@ class TransactionController extends Controller
 
         $dataCart = DB::table('tbl_cart')->where('id_users', '=', $idUsers)->where('is_order', '=', 0)->get();
         $dataTransaction = [];
+        for ($i = 0; $i < count($dataCart); $i++) {
+            $product = DB::table('tbl_product')->where('id', '=', $dataCart[$i]->id_product)->first();
+            $reductStock = $product->stock_reduction * $dataCart[$i]->quantity;
+            $remainStock = $product->stock - $reductStock;
+            $productUpdate = ModelProduct::find($dataCart[$i]->id_product);
+            $productUpdate->stock = $remainStock;
+            $productUpdate->save();
+        }
+
 
         $idOrder = "ORD-" . date('YmdHis');
         for ($i = 0; $i < count($dataCart); $i++) {
@@ -156,5 +166,42 @@ class TransactionController extends Controller
             'success' => true,
             'data'    => $dataExitItem
         ]);
+    }
+
+    function sendWhatsAppMessage()
+    {
+        $dataProduct = DB::table('tbl_product')->get();
+        $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
+
+        // Loop untuk menambahkan produk
+        foreach ($dataProduct as $product) {
+            $textMessage .= "🔹 " . $product->product_name . ": *" . $product->stock . " pcs*\n";
+        }
+        $apiUrl = "https://messages-sandbox.nexmo.com/v1/messages";
+        $apiKey = "8bbdaf30";
+        $apiSecret = "A6Fy1lM78uDE4ISl";
+        $data = [
+            "from" => "14157386102",
+            "to" => "6289669615426",
+            "message_type" => "text",
+            "text" => $textMessage,
+            "channel" => "whatsapp"
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json",
+            "Accept: application/json"
+        ]);
+        curl_setopt($ch, CURLOPT_USERPWD, "$apiKey:$apiSecret");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($response, true);
     }
 }
