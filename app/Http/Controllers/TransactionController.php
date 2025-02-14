@@ -229,7 +229,7 @@ class TransactionController extends Controller
         ->where('stock','<=',5)
         ->groupBy('tbl_product.group')
         ->get();
-        $textMessage = "📢 *RANGKUMAN YANG HARUS DIBELI* \n\n";
+        $textMessage = "📢 *STOCK TINGGAL DIKIT NICHHHH* \n\n";
 
         // Loop untuk menambahkan produk
         foreach ($dataProduct as $product) {
