@@ -175,7 +175,7 @@ class TransactionController extends Controller
     {
         // $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
         $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')
-        ->where('stock','<=',0)
+        ->where('stock','>=',0)
         ->get();
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
