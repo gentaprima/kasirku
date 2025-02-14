@@ -273,7 +273,7 @@ use Illuminate\Support\Facades\Session;
         popup: 'colored-toast'
       },
       showConfirmButton: false,
-      timer: 5000,
+      timer: 1000,
       timerProgressBar: true
     })
     let icon = document.getElementById('icon');
