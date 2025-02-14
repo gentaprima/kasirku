@@ -28,8 +28,7 @@ class UsersController extends Controller
         }
 
         $checkEmail = DB::table('tbl_users')
-                            ->where('email','=',$email)
-                            ->where('role','=',0)->first();
+                            ->where('email','=',$email)->first();
         if($checkEmail == null){
             return response()->json([
                 'success' => false,

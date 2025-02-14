@@ -107,9 +107,7 @@
                         <label for="" class="col-sm-2">Satuan</label>
                         <div class="col-sm-10">
                             <select name="satuan" id="satuan" class="form-control">
-                                <option value="">Pilih Satuan</option>
                                 <option value="Pcs">Pcs</option>
-                                <option value="Renceng">Renceng</option>
                             </select>
                         </div>
                     </div>

@@ -113,8 +113,12 @@ class ProductController extends Controller
             return redirect()->back();
         }
         
-        if($satuan == "Renceng"){
+        if($satuan == "Renceng12"){
             $stock = $stockIncoming * 12;
+        }else if($satuan == "Renceng6"){
+            $stock = $stockIncoming*6;
+        }else if($satuan == "Renceng10"){
+            $stock = $stockIncoming*10;
         }else{
             $stock = $stockIncoming;
         }
