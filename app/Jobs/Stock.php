@@ -32,7 +32,7 @@ class Stock implements ShouldQueue
      */
     public function handle():void
     {
-        $dataProduct = DB::table('tbl_product')->get();
+        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
         $textMessage = "\u{1F4E2} *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
         foreach ($dataProduct as $product) {
