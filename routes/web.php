@@ -43,6 +43,9 @@ Route::group(['middleware' => 'check.login','prefix' => '/'],function(){
     Route::post('/add-topping','ToppingController@store');
     Route::get('/get-data-topping/{id}','ToppingController@getData');
 
+    // history stock
+    Route::get('/history-stock','DashboardController@getHistoryStock');
+
     //transaction
     Route::get('/transaction','DashboardController@transaction');
 

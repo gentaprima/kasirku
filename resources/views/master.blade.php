@@ -87,12 +87,12 @@ use Illuminate\Support\Facades\Session;
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="margin-top: 30px;">
             <div class="dropdown-divider"></div>
-            <a href="/profile" class="dropdown-item">
-              <i class="fas fa-user mr-2"></i> Profile
+            <a href="/profile" class="dropdown-item text-primary">
+              <i class="fas fa-user mr-2 text-primary"></i> <span class="text-primary">Profile</span>
             </a>
             <div class="dropdown-divider"></div>
-            <a href="/logout" class="dropdown-item">
-              <i class="fas fa-share mr-2"></i> Logout
+            <a href="/logout" class="dropdown-item text-primary">
+              <i class="fas fa-share mr-2 text-primary"></i> <span class="text-primary">Logout</span>
             </a>
 
           </div>
@@ -170,6 +170,14 @@ use Illuminate\Support\Facades\Session;
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
                   Transaksi
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/history-stock" class="nav-link {{ Request::is('history-stock') ||  Request::is('history-stock') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-clock"></i>
+                <p>
+                  History Stock
                 </p>
               </a>
             </li>

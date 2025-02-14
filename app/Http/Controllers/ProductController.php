@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryStock;
 use App\Models\ModelProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -99,11 +100,38 @@ class ProductController extends Controller
 
     public function updateStock(Request $request)
     {
+        $satuan = $request->satuan;
+        $stockIncoming = $request->stock;
+        if ($satuan == null) {
+            Session::flash('message', 'Satuan tidak boleh kosong.');
+            Session::flash('icon', 'error');
+            return redirect()->back();
+        }
+        if($stockIncoming == null){
+            Session::flash('message', 'Stok masuk tidak boleh kosong.');
+            Session::flash('icon', 'error');
+            return redirect()->back();
+        }
+        
+        if($satuan == "Renceng"){
+            $stock = $stockIncoming * 12;
+        }else{
+            $stock = $stockIncoming;
+        }
+
+        $product = DB::table("tbl_product")->where('group','=',$request->group)->first();
+
         DB::table('tbl_product')
             ->where('tbl_product.group', '=', $request->group)
             ->update([
-                'stock' => $request->stock
+                'stock' => $product->stock+$stock
             ]);
+
+        HistoryStock::create([
+            'product_name'  => $product->group,
+            'incoming_stock' => $stock,
+            'date' => date('Y-m-d')
+        ]);
         Session::flash('message', 'Stock Produk berhasil diperbarui.');
         Session::flash('icon', 'success');
         return redirect()->back();
@@ -111,7 +139,7 @@ class ProductController extends Controller
 
     // API
     public function getProduct(Request $request)
-    {   
+    {
         $data = DB::table('tbl_product')
             ->where('product_category', '=', $request->category)
             ->where('product_name', 'like', '%' . $request->search . '%')->paginate(10);

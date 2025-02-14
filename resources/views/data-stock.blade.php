@@ -51,7 +51,6 @@
                             <th>No</th>
                             <th>Nama Produk</th>
                             <th>Sisa Stock</th>
-                            <th>Stock Keluar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -60,12 +59,11 @@
                         <?php foreach ($stock as $row) { ?>
                             <tr>
                                 <td><?= $i++; ?></td>
-                                <td><?= $row->group; ?></td>
-                                <td><?= $row->stock; ?></td>
-                                <td><?= $row->remaining_stock; ?></td>
+                                <td><?= $row->group; ?> </td>
+                                <td class="font-weight-bold"><?= $row->stock; ?> Pcs</td>
                                 <td>
                                     <button onclick="updateData('<?= $row->id ?>','<?= $row->product_name ?>','<?= $row->stock ?>','<?= $row->remaining_stock ?>','<?= $row->group ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
-                                    <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
+                                    <!-- <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button> -->
                                 </td>
                             </tr>
                         <?php } ?>
@@ -106,19 +104,22 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="" class="col-sm-2">Satuan</label>
+                        <div class="col-sm-10">
+                            <select name="satuan" id="satuan" class="form-control">
+                                <option value="">Pilih Satuan</option>
+                                <option value="Pcs">Pcs</option>
+                                <option value="Renceng">Renceng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="" class="col-sm-2">Stock</label>
                         <div class="col-sm-10">
                             <input type="text" name="stock" id="stock" class="form-control">
-                            <!-- <span>Khusus indomie diisi dengan nama merk, yang lain boleh kosong, "Indomie Rendang"</span> -->
                         </div>
                     </div>
-                    <!-- <div class="form-group row">
-                        <label for="" class="col-sm-2">Sisa Stock</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="stockReduction" id="stockReduction" class="form-control">
-                            <span>Selain indomie double bisa dikosongkan</span>
-                        </div>
-                    </div> -->
+                   
 
             </div>
             <div class="modal-footer">
@@ -328,12 +329,9 @@
     }
 
     function updateData(id, productName, stock, remainingStock, group) {
-        document.getElementById("stock").value = stock;
         document.getElementById("group").value = group;
-        // document.getElementById("labelNamePhoto").innerHTML = photo;
-        // document.getElementById("labelPhoto").hidden = false;
         document.getElementById("form").action = `/update-stock`;
-        document.getElementById("titleModal").innerHTML = 'Perbarui Stock';
+        document.getElementById("titleModal").innerHTML = 'Tambah Stock';
        
 
         // let requiredImage = document.getElementById("imagePick");

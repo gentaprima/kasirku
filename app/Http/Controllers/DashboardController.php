@@ -150,7 +150,39 @@ class DashboardController extends Controller
         return view('data-transaction', $data);
     }
 
-    public function input(){
+    public function input()
+    {
         return view('input-barang');
+    }
+
+    public function getHistoryStock(Request $request)
+    {
+        $filter = $request->bulan;
+        if ($filter == null) {
+            $bulan = date('m');
+            $tahun = date('Y');
+        } else {
+            $split = explode('-', $filter);
+            $bulan = $split[1];
+            $tahun = $split[0];
+        }
+        $ $filter = $request->bulan;
+        if ($filter == null) {
+            $bulan = date('m');
+            $tahun = date('Y');
+        } else {
+            $split = explode('-', $filter);
+            $bulan = $split[1];
+            $tahun = $split[0];
+        }
+        $formatBulan = DateTime::createFromFormat('!m', $bulan)->format('F') .' '. $tahun; 
+
+        $dataHistory = DB::table('tbl_history_stock')
+            ->whereYear('date', $tahun)  // 'tanggal' adalah kolom dengan tipe data DATE
+            ->whereMonth('date', $bulan)
+            ->get();
+        $data['history'] = $dataHistory;
+        $data['bulan'] = $formatBulan;
+        return view('data-history', $data);
     }
 }

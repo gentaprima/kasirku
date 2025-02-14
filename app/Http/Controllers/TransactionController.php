@@ -185,7 +185,7 @@ class TransactionController extends Controller
         $apiKey = "8bbdaf30";
         $apiSecret = "A6Fy1lM78uDE4ISl";
 
-        $recipient = ['6289669615426', '6285157289899'];
+        $recipient = ['6289669615426'];
 
         foreach ($recipient as $recipient) {
             $data = [
@@ -215,5 +215,53 @@ class TransactionController extends Controller
         }
 
         return response()->json(["status" => "Messages sent successfully"]);
+    }
+    public function sendGroup()
+    {
+        $dataProduct = DB::table('tbl_product')->get();
+        $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
+
+        // Loop untuk menambahkan produk
+        foreach ($dataProduct as $product) {
+            $textMessage .= "🔹 " . $product->product_name . ": *" . $product->stock . " pcs*\n";
+        }
+
+        $apiUrl = "https://messages-sandbox.nexmo.com/v1/messages";
+        $apiKey = "8bbdaf30";
+        $apiSecret = "A6Fy1lM78uDE4ISl";
+
+        $recipient = ['6289669615426'];
+
+        $token = "Y2gHrxWHxAZm6KdaLK21  ";
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => '120363371645160401@g.us',
+                'message' => $textMessage,
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: $token"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        if (curl_errno($curl)) {
+            $error_msg = curl_error($curl);
+        }
+        curl_close($curl);
+
+        if (isset($error_msg)) {
+            echo $error_msg;
+        }
+        echo $response;
     }
 }
