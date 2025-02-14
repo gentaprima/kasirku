@@ -53,36 +53,38 @@
                         <?php } ?>
                     </div>
                 </div>
-                <table id="example3" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>ID Transaksi</th>
-                            <th>Nama Produk</th>
-                            <th>Jumlah</th>
-                            <th>Tanggal</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1; ?>
-                        <?php foreach ($transaction as $row) { ?>
+                <div class="table-responsive">
+                    <table id="example3" class="table table-bordered table-striped">
+                        <thead class="">
                             <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= $row->order_id; ?></td>
-                                <td><?= $row->product_name; ?></td>
-                                <td><?= $row->quantity; ?></td>
-                                <td><?= $row->created_at; ?></td>
-                                <td>Rp <?= number_format($row->total,0,'.','.'); ?></td>
+                                <th>No</th>
+                                <th>ID Transaksi</th>
+                                <th>Nama Produk</th>
+                                <th class="text-center">Jumlah</th>
+                                <th class="text-center">Tanggal</th>
+                                <th class="text-center">Total</th>
                             </tr>
-                        <?php } ?>
-                        <tr>
-                            <th colspan="5">Subtotal</th>
-                            <th>Rp <?= number_format($totalToday,0,'.','.'); ?></th>
-                        </tr>
-                    </tbody>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; ?>
+                            <?php foreach ($transaction as $row) { ?>
+                                <tr>
+                                    <td><?= $i++; ?></td>
+                                    <td><?= $row->order_id; ?></td>
+                                    <td><?= $row->product_name; ?></td>
+                                    <td class="text-center"><?= $row->quantity; ?></td>
+                                    <td class="text-center"><?= date('d M Y H:i', strtotime($row->created_at)); ?></td>
+                                    <td class="text-center">Rp <?= number_format($row->total, 0, '.', '.'); ?></td>
+                                </tr>
+                            <?php } ?>
+                            <tr class="bg-light font-weight-bold">
+                                <td colspan="5" class="text-right">Subtotal</td>
+                                <td class="text-center">Rp <?= number_format($totalToday, 0, '.', '.'); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                </table>
                 <!-- <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                     <ul class="pagination">
                         <li>Halaman</li>

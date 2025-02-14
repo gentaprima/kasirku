@@ -31,6 +31,9 @@
 .bg-primary{
     background-color: #967E76 !important
 }
+.badge-primary{
+    background-color: #967E76 !important
+}
 
 .rounded {
     border-radius: 10px !important;

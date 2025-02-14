@@ -13,7 +13,9 @@ class CartController extends Controller
         $cart = DB::table('tbl_cart')
             ->where('is_order', '=', 0)
             ->where('id_users', '=', $request->idUsers)
-            ->join('tbl_product', 'tbl_product.id', '=', 'tbl_cart.id_product')->get();
+            ->join('tbl_product', 'tbl_product.id', '=', 'tbl_cart.id_product')
+            ->orderBy('created_at')
+            ->get();
         $totalCart = 0;
         for ($i = 0; $i < count($cart); $i++) {
             $totalCart += $cart[$i]->total;

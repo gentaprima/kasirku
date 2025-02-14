@@ -81,7 +81,15 @@ use Illuminate\Support\Facades\Session;
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <div class="card p-4 rounded mb-3">
-                        <h4>Produk</h4>
+                        <div class="row d-flex justify-content-between align-items-center mb-4">
+                            <div class="col">
+                                <h4>Produk</h4>
+                            </div>
+                            <div class="col text-right">
+                                <button type="button" onClick="edit()" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit">Edit</button>
+                            </div>
+                        </div>
+
                         <table id="table-cart">
                             <thead>
                                 <th>Nama Produk</th>
@@ -97,7 +105,7 @@ use Illuminate\Support\Facades\Session;
                             </tfoot>
                         </table>
                         <hr>
-                        <p id="totalInput"></p>
+                        <p style="display: none;" id="totalInput"></p>
                         <button class="btn btn-primary" onClick="addTranscation()">Process</button>
                     </div>
                 </div>
@@ -138,7 +146,29 @@ use Illuminate\Support\Facades\Session;
                 <button type="button" onclick="addCart()" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
-            <div class="bg-red rounded-modal" style="color: red;height:15px;"></div>
+            <div class="bg-primary rounded-modal" style="color: red;height:15px;"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content rounded">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul id="cart-list" class="list-group">
+                    <!-- Data Produk akan dimasukkan melalui AJAX -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
+                </form>
+            </div>
+            <div class="bg-primary rounded-modal" style="color: red;height:15px;"></div>
         </div>
     </div>
 </div>
@@ -146,6 +176,42 @@ use Illuminate\Support\Facades\Session;
     loadDataMakanan("");
     loadDataMinuman("");
     getCart();
+
+    function edit() {
+        $idUsers = $("#idUsers").html();
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/api/get-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                idUsers: $idUsers,
+            }),
+            success: function(response) {
+                console.log(response);
+                // Kosongkan List Group sebelum memasukkan data baru
+                $("#cart-list").empty();
+
+                response.data.forEach(function(item) {
+
+                    let listItem = `
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <span>${item.product_name}</span>
+                                    ${item.topping !== "Tanpa Topping" ? `<small class="text-muted ml-2">+ ${item.topping}</small>` : ""}
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge badge-primary badge-pill mr-3">${item.quantity} pcs</span>
+                                    <button class="btn btn-primary btn-sm mr-1" onClick="addCartMinuman(${item.id_product},'${item.topping}')">+</button>
+                                    <button class="btn btn-default btn-sm" onClick="minCart(${item.id_product},'${item.topping}')">-</button>
+                                </div>
+                            </li>
+                        `;
+                    $("#cart-list").append(listItem);
+                });
+            }
+        })
+    }
 
     function loadDataMakanan(key) {
         $.ajax({
@@ -182,7 +248,7 @@ use Illuminate\Support\Facades\Session;
                 $(".list-group.minuman").empty();
                 // Iterasi setiap item dalam respons dan tambahkan ke dalam <ul>
                 response.data.data.forEach(function(item) {
-                    $(".list-group.minuman").append(`<li class="list-group-item d-flex justify-content-between align-items-center">${item.product_name} <span class="text-primary fw-bold badge btn-primary" onclick="addCart(${item.id},'Tanpa Topping')">+</span></li>`);
+                    $(".list-group.minuman").append(`<li class="list-group-item d-flex justify-content-between align-items-center">${item.product_name} <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span></li>`);
 
                 });
             }
@@ -199,8 +265,8 @@ use Illuminate\Support\Facades\Session;
 
     function addCart() {
         var idUsers = $("#idUsers").html();
-        var idProduct =  $("#idMakanan").val();
-        var topping  = $("#topping").val();
+        var idProduct = $("#idMakanan").val();
+        var topping = $("#topping").val();
 
         $.ajax({
             type: 'post',
@@ -220,14 +286,82 @@ use Illuminate\Support\Facades\Session;
                         title: response.message
                     });
                     getCart();
-                }else{
+                } else {
                     Toast.fire({
                         icon: "error",
                         title: response.message
                     });
                 }
 
-                
+
+            }
+        })
+    }
+
+    function addCartMinuman(id, topping) {
+        var idUsers = $("#idUsers").html();
+
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/api/add-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                idProduct: id,
+                idUsers: idUsers,
+                topping: topping
+            }),
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    Toast.fire({
+                        icon: "success",
+                        title: response.message
+                    });
+                    getCart();
+                    edit();
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: response.message
+                    });
+                }
+
+
+            }
+        })
+    }
+
+    function minCart(id,topping) {
+        var idUsers = $("#idUsers").html();
+
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/api/min-cart',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                idProduct: id,
+                idUsers: idUsers,
+                topping: topping
+            }),
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    Toast.fire({
+                        icon: "success",
+                        title: response.message
+                    });
+                    getCart();
+                    edit();
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: response.message
+                    });
+                }
+
+
             }
         })
     }
@@ -264,21 +398,22 @@ use Illuminate\Support\Facades\Session;
     function setMakanan(id) {
         $("#idMakanan").val(id)
     }
-    function addTranscation(){
+
+    function addTranscation() {
         var idUsers = $("#idUsers").html();
         var total = $("#totalInput").html();
 
         $.ajax({
-            dataType:'json',
-            type:'post',
-            url:'/api/add-transaction',
-            contentType:'application/json',
+            dataType: 'json',
+            type: 'post',
+            url: '/api/add-transaction',
+            contentType: 'application/json',
             data: JSON.stringify({
-                idUsers : idUsers,
-                total : total
+                idUsers: idUsers,
+                total: total
             }),
-            success : function(response){
-                if(response.success){
+            success: function(response) {
+                if (response.success) {
                     Toast.fire({
                         icon: "success",
                         title: response.message
