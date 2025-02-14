@@ -168,7 +168,7 @@
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
-            <div class="bg-red rounded-modal" style="color: red;height:15px;"></div>
+            <div class="bg-chocolate rounded-modal" style="color: red;height:15px;"></div>
         </div>
     </div>
 </div>
@@ -189,7 +189,7 @@
                 <a id="btnDelete" type="submit" class="btn btn-primary">Hapus</a>
                 </form>
             </div>
-            <div class="bg-red rounded-modal" style="color: red;height:15px;"></div>
+            <div class="bg-chocolate rounded-modal" style="color: red;height:15px;"></div>
         </div>
     </div>
 </div>

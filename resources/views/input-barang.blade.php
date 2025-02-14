@@ -146,7 +146,7 @@ use Illuminate\Support\Facades\Session;
                 <button type="button" onclick="addCart()" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
-            <div class="bg-primary rounded-modal" style="color: red;height:15px;"></div>
+            <div class="bg-chocolate rounded-modal" style="color: red;height:15px;"></div>
         </div>
     </div>
 </div>
@@ -168,7 +168,7 @@ use Illuminate\Support\Facades\Session;
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
                 </form>
             </div>
-            <div class="bg-primary rounded-modal" style="color: red;height:15px;"></div>
+            <div class="bg-chocolate rounded-modal" style="color: red;height:15px;"></div>
         </div>
     </div>
 </div>
@@ -201,7 +201,7 @@ use Illuminate\Support\Facades\Session;
                                     ${item.topping !== "Tanpa Topping" ? `<small class="text-muted ml-2">+ ${item.topping}</small>` : ""}
                                 </div>
                                 <div class="d-flex align-items-center">
-                                    <span class="badge badge-primary badge-pill mr-3">${item.quantity} pcs</span>
+                                    <span class="badge badge-chocolate badge-pill mr-3">${item.quantity} pcs</span>
                                     <button class="btn btn-primary btn-sm mr-1" onClick="addCartMinuman(${item.id_product},'${item.topping}')">+</button>
                                     <button class="btn btn-default btn-sm" onClick="minCart(${item.id_product},'${item.topping}')">-</button>
                                 </div>
