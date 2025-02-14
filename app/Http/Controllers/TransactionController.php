@@ -221,6 +221,57 @@ class TransactionController extends Controller
 
         return response()->json(["status" => "Messages sent successfully"]);
     }
+    function sendWhatsAppMessageStockLitle()
+    {
+        // $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
+        $dataProduct = DB::table('tbl_product')
+        ->where('stock','>',0)
+        ->where('stock','<=',5)
+        ->groupBy('tbl_product.group')
+        ->get();
+        dd($dataProduct);
+        $textMessage = "📢 *RANGKUMAN YANG HARUS DIBELI* \n\n";
+
+        // Loop untuk menambahkan produk
+        foreach ($dataProduct as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
+        }
+
+        $apiUrl = "https://messages-sandbox.nexmo.com/v1/messages";
+        $apiKey = "8bbdaf30";
+        $apiSecret = "A6Fy1lM78uDE4ISl";
+
+        $recipient = ['6289669615426','6289688681973'];
+
+        foreach ($recipient as $recipient) {
+            $data = [
+                "from" => "14157386102",
+                "to" => $recipient,
+                "message_type" => "text",
+                "text" => $textMessage,
+                "channel" => "whatsapp"
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $apiUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                "Content-Type: application/json",
+                "Accept: application/json"
+            ]);
+            curl_setopt($ch, CURLOPT_USERPWD, "$apiKey:$apiSecret");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            // Log atau debugging (opsional)
+            // echo "Response for $recipient: " . json_encode($response) . "\n";
+        }
+
+        return response()->json(["status" => "Messages sent successfully"]);
+    }
     public function sendGroup()
     {
         $dataProduct = DB::table('tbl_product')
@@ -272,4 +323,6 @@ class TransactionController extends Controller
         }
         echo $response;
     }
+
+    
 }
