@@ -218,7 +218,7 @@ class TransactionController extends Controller
     }
     public function sendGroup()
     {
-        $dataProduct = DB::table('tbl_product')->get();
+        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
         // Loop untuk menambahkan produk
@@ -245,7 +245,7 @@ class TransactionController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array(
-                'target' => '120363371645160401@g.us',
+                'target' => '120363166640669368@g.us',
                 'message' => $textMessage,
             ),
             CURLOPT_HTTPHEADER => array(
