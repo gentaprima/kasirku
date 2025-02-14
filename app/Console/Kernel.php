@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->job(new Stock())->dailyAt('00.12')->timezone('Asia/Jakarta');
+        $schedule->job(new Stock())->dailyAt('00:16')->timezone('Asia/Jakarta');
     }
 
     /**
