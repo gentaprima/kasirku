@@ -174,8 +174,9 @@ class TransactionController extends Controller
     function sendWhatsAppMessage()
     {
         // $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
-        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')
-        ->where('stock','>=',0)
+        $dataProduct = DB::table('tbl_product')
+        ->where('stock','>',0)
+        ->groupBy('tbl_product.group')
         ->get();
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
