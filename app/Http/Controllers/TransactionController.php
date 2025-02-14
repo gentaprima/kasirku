@@ -173,7 +173,10 @@ class TransactionController extends Controller
 
     function sendWhatsAppMessage()
     {
-        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
+        // $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
+        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')
+        ->where('stock','<=',0)
+        ->get();
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
         // Loop untuk menambahkan produk
@@ -218,12 +221,14 @@ class TransactionController extends Controller
     }
     public function sendGroup()
     {
-        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')->get();
+        $dataProduct = DB::table('tbl_product')->groupBy('tbl_product.group')
+        ->where('stock','<=',0)
+        ->get();
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
         // Loop untuk menambahkan produk
         foreach ($dataProduct as $product) {
-            $textMessage .= "🔹 " . $product->product_name . ": *" . $product->stock . " pcs*\n";
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
         }
 
         $apiUrl = "https://messages-sandbox.nexmo.com/v1/messages";
