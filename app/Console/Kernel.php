@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->job(new Stock())
-                ->everyMinute();
-            //  ->dailyAt('17:22'); // Bisa diubah ke waktu yang diinginkan
+                // ->everyMinute();
+             ->dailyAt('17:53'); // Bisa diubah ke waktu yang diinginkan
     }
 
     /**

@@ -43,7 +43,7 @@ class Stock implements ShouldQueue
         $apiKey = "8bbdaf30";
         $apiSecret = "A6Fy1lM78uDE4ISl";
         
-        $recipients = ['6289669615426', '6281234567890']; // Tambahkan nomor lain jika perlu
+        $recipients = ['6289669615426']; // Tambahkan nomor lain jika perlu
 
         foreach ($recipients as $recipient) {
             $data = [
