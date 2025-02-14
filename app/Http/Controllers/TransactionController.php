@@ -178,6 +178,7 @@ class TransactionController extends Controller
         ->where('stock','>',0)
         ->groupBy('tbl_product.group')
         ->get();
+        dd($dataProduct);
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
         // Loop untuk menambahkan produk
