@@ -227,7 +227,7 @@ use Illuminate\Support\Facades\Session;
                 $(".list-group.makanan").empty();
                 // Iterasi setiap item dalam respons dan tambahkan ke dalam <ul>
                 response.data.data.forEach(function(item) {
-                    $(".list-group.makanan").append(`<li class="list-group-item d-flex justify-content-between align-items-center">${item.product_name}   <span class="text-primary fw-bold badge btn-primary" onclick="setMakanan(${item.id})" data-toggle="modal" data-target="#modal-cart">+</span></li>`);
+                    $(".list-group.makanan").append(`<li class="list-group-item d-flex justify-content-between align-items-center">${item.product_name}   <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span></li>`);
 
                 });
             }
