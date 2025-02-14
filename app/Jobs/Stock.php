@@ -56,7 +56,7 @@ class Stock implements ShouldQueue
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array(
-                'target' => '120363151442191347@g.us',
+                'target' => '120363166640669368@g.us',
                 'message' => $textMessage,
             ),
             CURLOPT_HTTPHEADER => array(
