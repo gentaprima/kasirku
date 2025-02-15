@@ -117,12 +117,12 @@
                             <input type="text" name="stock" id="stock" class="form-control">
                         </div>
                     </div>
-                   
+
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
+                <button type="button" id="btnStock" onClick="addStock()" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
             <div class="bg-chocolate rounded-modal" style="color: red;height:15px;"></div>
@@ -318,6 +318,43 @@
         })
     }
 
+    function addStock() {
+        $("#btnStock").prop("disabled", true).html('<i class="fas fa-spinner fa-spin"></i> Loading...');
+        var product = $("#group").val();
+        var satuan = $("#satuan").val();
+        var stock = $("#stock").val();
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: '/api/update-stock',
+            contentType: 'application/json',
+            data: JSON.stringify({ // Data yang dikirim ke API
+                satuan: satuan,
+                stock: stock,
+                group: product
+            }),
+            success: function(response) {
+
+                if (response.success) {
+                    Toast.fire({
+                        icon: "success",
+                        title: response.message
+                    });
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: response.message
+                    });
+                }
+            },
+            complete: function() {
+                $("#btnStock").prop("disabled", false).html("Submit"); // Kembalikan tombol seperti semula
+                $("#closeModal").click();
+
+            }
+        })
+    }
+
     function checkAds(val) {
         console.log(val.value);
     }
@@ -330,7 +367,7 @@
         document.getElementById("group").value = group;
         document.getElementById("form").action = `/update-stock`;
         document.getElementById("titleModal").innerHTML = 'Tambah Stock';
-       
+
 
         // let requiredImage = document.getElementById("imagePick");
         // requiredImage.removeAttribute('required', '')

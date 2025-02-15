@@ -107,28 +107,28 @@ class ProductController extends Controller
             Session::flash('icon', 'error');
             return redirect()->back();
         }
-        if($stockIncoming == null){
+        if ($stockIncoming == null) {
             Session::flash('message', 'Stok masuk tidak boleh kosong.');
             Session::flash('icon', 'error');
             return redirect()->back();
         }
-        
-        if($satuan == "Renceng12"){
+
+        if ($satuan == "Renceng12") {
             $stock = $stockIncoming * 12;
-        }else if($satuan == "Renceng6"){
-            $stock = $stockIncoming*6;
-        }else if($satuan == "Renceng10"){
-            $stock = $stockIncoming*10;
-        }else{
+        } else if ($satuan == "Renceng6") {
+            $stock = $stockIncoming * 6;
+        } else if ($satuan == "Renceng10") {
+            $stock = $stockIncoming * 10;
+        } else {
             $stock = $stockIncoming;
         }
 
-        $product = DB::table("tbl_product")->where('group','=',$request->group)->first();
+        $product = DB::table("tbl_product")->where('group', '=', $request->group)->first();
 
         DB::table('tbl_product')
             ->where('tbl_product.group', '=', $request->group)
             ->update([
-                'stock' => $product->stock+$stock
+                'stock' => $product->stock + $stock
             ]);
 
         HistoryStock::create([
@@ -139,6 +139,53 @@ class ProductController extends Controller
         Session::flash('message', 'Stock Produk berhasil diperbarui.');
         Session::flash('icon', 'success');
         return redirect()->back();
+    }
+
+    public function updateStockApi(Request $request)
+    {
+        $satuan = $request->satuan;
+        $stockIncoming = $request->stock;
+        if ($satuan == null) {
+            return response()->json([
+                'message' => "Satuan tidak boleh kosong",
+                'success' => true
+            ]);
+        }
+        if ($stockIncoming == null) {
+            return response()->json([
+                'message' => "Stock tidak Boleh kosong ",
+                'success' => false
+            ]);
+        }
+
+        if ($satuan == "Renceng12") {
+            $stock = $stockIncoming * 12;
+        } else if ($satuan == "Renceng6") {
+            $stock = $stockIncoming * 6;
+        } else if ($satuan == "Renceng10") {
+            $stock = $stockIncoming * 10;
+        } else {
+            $stock = $stockIncoming;
+        }
+
+        $product = DB::table("tbl_product")->where('group', '=', $request->group)->first();
+
+        DB::table('tbl_product')
+            ->where('tbl_product.group', '=', $request->group)
+            ->update([
+                'stock' => $product->stock + $stock
+            ]);
+
+        HistoryStock::create([
+            'product_name'  => $product->group,
+            'incoming_stock' => $stock,
+            'date' => date('Y-m-d')
+        ]);
+
+        return response()->json([
+            'message' => "Stock berhasil ditambahkan ",
+            'success' => true
+        ]);
     }
 
     // API

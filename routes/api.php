@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth','UsersController@auth');
 // product
 Route::post('/get-product','ProductController@getProduct');
+Route::post('/update-stock','ProductController@updateStockApi');
 // cart
 Route::post('/get-cart','CartController@getCart');
 Route::post('/add-cart','CartController@addCart');
