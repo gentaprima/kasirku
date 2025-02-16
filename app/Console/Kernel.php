@@ -20,8 +20,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         // $schedule->job(new Stock())->dailyAt('11:00')->timezone('Asia/Jakarta');
-        $schedule->job(new SendReportStockJob())->dailyAt('11:00'); // Kirim laporan stok jam 9 pagi
-        $schedule->job(new SendReportLowStockJob)->dailyAt('11:05'); // Kirim peringatan stok rendah jam 9:05
+        $schedule->job(new SendReportStockJob())->dailyAt('09:00'); // Kirim laporan stok jam 9 pagi
+        $schedule->job(new SendReportLowStockJob)->dailyAt('09:05'); // Kirim peringatan stok rendah jam 9:05
     }
 
     /**

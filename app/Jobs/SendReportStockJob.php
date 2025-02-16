@@ -31,17 +31,36 @@ class SendReportStockJob implements ShouldQueue
      */
     public function handle()
     {
-        $dataProduct = DB::table('tbl_product')
+        $dataProductFrozen = DB::table('tbl_product')
             ->where('stock', '>', 0)
+            ->where('remark', 3) // Frozen Food
             ->groupBy('tbl_product.group')
             ->get();
 
-        $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
+        $dataProductKita = DB::table('tbl_product')
+            ->where('stock', '>', 0)
+            ->where('remark', 1) // Produk Kita
+            ->groupBy('tbl_product.group')
+            ->get();
 
-        foreach ($dataProduct as $product) {
-            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
+        $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n";
+
+        // Tambahkan pembatas untuk Frozen Food
+        $textMessage .= "\n====================\n";
+        $textMessage .= "❄️ *FROZEN FOOD*";
+        $textMessage .= "\n====================\n";
+        foreach ($dataProductFrozen as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
 
+        // Tambahkan pembatas untuk Produk Kita
+        $textMessage .= "\n====================\n";
+        $textMessage .= "🏠 *PRODUK KITA*";
+        $textMessage .= "\n====================\n";
+        foreach ($dataProductKita as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
+        }
+        
         $this->sendToFonnte($textMessage);
     }
 
