@@ -31,5 +31,5 @@ Route::post('/get-exit-item','TransactionController@getExitItem');
 Route::get('/send-wa','TransactionController@sendWhatsAppMessage');
 Route::get('/send-wa-stock','TransactionController@sendWhatsAppMessageStockLitle');
 Route::get('/test','TransactionController@sendGroup');
-Route::get('/','TransactionController@sendReportStock');
+Route::get('/send-report-stock','TransactionController@sendReportStock');
 Route::get('/send-report-low-stock','TransactionController@sendReportStock');
