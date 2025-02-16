@@ -53,6 +53,7 @@
                             <th>Nama Produk</th>
                             <th>Harga</th>
                             <th>Kategori</th>
+                            <th>Status</th>
                             <th>Aktif</th>
                             <th>Aksi</th>
                         </tr>
@@ -65,6 +66,17 @@
                                 <td><?= $row->product_name; ?></td>
                                 <td><?= $row->price; ?></td>
                                 <td><span class="badge badge-secondary"><?= $row->product_category; ?></span> </td>
+                                <td>
+                                    <span class="badge badge-secondary">
+                                        <?php  if($row->remark == 1){  ?>
+                                            Produk Kita
+                                        <?php  }else if($row->remark == 2){ ?>
+                                            Produk Luat
+                                        <?php  }else if($row->remark == 3){ ?>
+                                            Frozen Food
+                                        <?php  } ?>
+                                    </span>
+                                </td>
                                 <td>
                                     <?php if ($row->is_active == 1) { ?>
                                         <span class="badge badge-success">Aktif</span>
@@ -395,7 +407,7 @@
         document.getElementById("imageBanner").src = path + '/' + image;
     }
 
-    function updateData(id, productName, productCategory, price, isActive, group,stockReduction,unit,remark) {
+    function updateData(id, productName, productCategory, price, isActive, group, stockReduction, unit, remark) {
         console.log(productCategory);
         document.getElementById("productName").value = productName;
         document.getElementById("productCategory").value = productCategory;
