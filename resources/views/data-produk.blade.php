@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div> -->
-                <button class="btn btn-outline-primary size-btn" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
+                <button class="btn btn-outline-primary size-btn mb-3" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>

@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Session;
       cursor: pointer;
     }
 
-    .navbar-nav li a{
+    .navbar-nav li a {
       color: #fff !important;
     }
   </style>
@@ -73,7 +73,7 @@ use Illuminate\Support\Facades\Session;
         </li>
       </ul>
 
-    
+
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
@@ -164,7 +164,7 @@ use Illuminate\Support\Facades\Session;
                 </p>
               </a>
             </li>
-           
+
             <li class="nav-item">
               <a href="/transaction" class="nav-link {{ Request::is('transaction') ||  Request::is('transaction') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-calendar"></i>
@@ -181,7 +181,7 @@ use Illuminate\Support\Facades\Session;
                 </p>
               </a>
             </li>
-           
+
 
 
 
@@ -288,13 +288,13 @@ use Illuminate\Support\Facades\Session;
   <script>
     $(function() {
       $("#example1").DataTable({
-        "paging": true,         // Aktifkan pagination
-            "lengthMenu": [10, 25, 50, 100], // Pilihan jumlah data per halaman
-            "ordering": true,       // Aktifkan sorting
-            "searching": true,      // Aktifkan pencarian
-            "info": true,           // Tampilkan info jumlah data
-            "autoWidth": false,     // Hindari lebar kolom otomatis
-            "responsive": true
+        "paging": true, // Aktifkan pagination
+        "lengthMenu": [10, 25, 50, 100], // Pilihan jumlah data per halaman
+        "ordering": true, // Aktifkan sorting
+        "searching": true, // Aktifkan pencarian
+        "info": true, // Tampilkan info jumlah data
+        "autoWidth": false, // Hindari lebar kolom otomatis
+        "responsive": true
         // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       $('#example2').DataTable({
