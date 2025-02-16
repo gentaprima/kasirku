@@ -428,7 +428,7 @@ class TransactionController extends Controller
 
         // Tambahkan pembatas untuk Frozen Food
         $textMessage .= "\n====================\n";
-        $textMessage .= "❄️ *FROZEN FOOD*\n";
+        $textMessage .= "❄️ *FROZEN FOOD*";
         $textMessage .= "\n====================\n";
         foreach ($dataProductFrozen as $product) {
             $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
@@ -436,7 +436,7 @@ class TransactionController extends Controller
 
         // Tambahkan pembatas untuk Produk Kita
         $textMessage .= "\n====================\n";
-        $textMessage .= "🏠 *PRODUK KITA*\n";
+        $textMessage .= "🏠 *PRODUK KITA*";
         $textMessage .= "\n====================\n";
         foreach ($dataProductKita as $product) {
             $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
