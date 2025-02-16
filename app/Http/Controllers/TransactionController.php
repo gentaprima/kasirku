@@ -427,17 +427,17 @@ class TransactionController extends Controller
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
         // Tambahkan pembatas untuk Frozen Food
-        $textMessage .= "==============================\n";
+        $textMessage .= "\n====================\n";
         $textMessage .= "❄️ *FROZEN FOOD*\n";
-        $textMessage .= "==============================\n";
+        $textMessage .= "\n====================\n";
         foreach ($dataProductFrozen as $product) {
             $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
 
         // Tambahkan pembatas untuk Produk Kita
-        $textMessage .= "\n==============================\n";
+        $textMessage .= "\n====================\n";
         $textMessage .= "🏠 *PRODUK KITA*\n";
-        $textMessage .= "==============================\n";
+        $textMessage .= "\n====================\n";
         foreach ($dataProductKita as $product) {
             $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
