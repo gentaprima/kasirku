@@ -451,13 +451,14 @@ class TransactionController extends Controller
         $dataProduct = DB::table('tbl_product')
             ->where('stock', '>', 0)
             ->where('stock', '<=', 5)
+            ->where('remark', 1) // Produk Kita
             ->groupBy('tbl_product.group')
             ->get();
 
         $textMessage = "📢 *STOCK TINGGAL DIKIT NICHHHH* \n\n";
 
         foreach ($dataProduct as $product) {
-            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " ". $product->unit . "*\n";
         }
 
         $this->sendToFonnte($textMessage);
@@ -471,7 +472,7 @@ class TransactionController extends Controller
             CURLOPT_URL => 'https://api.fonnte.com/send',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => ['target' => '120363166640669368@g.us', 'message' => $message],
+            CURLOPT_POSTFIELDS => ['target' => '120363144769894007@g.us', 'message' => $message],
             CURLOPT_HTTPHEADER => ["Authorization: $token"],
         ]);
         $response = curl_exec($curl);
