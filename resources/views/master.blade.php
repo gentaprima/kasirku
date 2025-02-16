@@ -288,11 +288,13 @@ use Illuminate\Support\Facades\Session;
   <script>
     $(function() {
       $("#example1").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "paging": true,
-        "ordering": true,
+        "paging": true,         // Aktifkan pagination
+            "lengthMenu": [10, 25, 50, 100], // Pilihan jumlah data per halaman
+            "ordering": true,       // Aktifkan sorting
+            "searching": true,      // Aktifkan pencarian
+            "info": true,           // Tampilkan info jumlah data
+            "autoWidth": false,     // Hindari lebar kolom otomatis
+            "responsive": true
         // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       $('#example2').DataTable({
