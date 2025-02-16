@@ -409,4 +409,52 @@ class TransactionController extends Controller
         }
         echo $response;
     }
+
+    public function sendReportStock()
+    {
+        $dataProduct = DB::table('tbl_product')
+            ->where('stock', '>', 0)
+            ->groupBy('tbl_product.group')
+            ->get();
+
+        $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
+
+        foreach ($dataProduct as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
+        }
+
+        $this->sendToFonnte($textMessage);
+    }
+
+    public function sendReportLowStock()
+    {
+        $dataProduct = DB::table('tbl_product')
+            ->where('stock', '>', 0)
+            ->where('stock', '<=', 5)
+            ->groupBy('tbl_product.group')
+            ->get();
+
+        $textMessage = "📢 *STOCK TINGGAL DIKIT NICHHHH* \n\n";
+
+        foreach ($dataProduct as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
+        }
+
+        $this->sendToFonnte($textMessage);
+    }
+
+    private function sendToFonnte($message)
+    {
+        $token = "Y2gHrxWHxAZm6KdaLK21";
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => ['target' => '120363371645160401@g.us	', 'message' => $message],
+            CURLOPT_HTTPHEADER => ["Authorization: $token"],
+        ]);
+        curl_exec($curl);
+        curl_close($curl);
+    }
 }

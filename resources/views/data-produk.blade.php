@@ -73,7 +73,7 @@
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <button onclick="updateData('<?= $row->id ?>','<?= $row->product_name ?>','<?= $row->product_category ?>','<?= $row->price ?>','<?= $row->is_active ?>','<?= $row->group ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
+                                    <button onclick="updateData('<?= $row->id ?>','<?= $row->product_name ?>','<?= $row->product_category ?>','<?= $row->price ?>','<?= $row->is_active ?>','<?= $row->group ?>','<?= $row->stock_reduction ?>','<?= $row->unit ?>','<?= $row->remark ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
                                     <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
@@ -130,19 +130,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Photo</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" required class="custom-file-input" name="image" id="imagePick">
-                                    <label id="labelNamePhoto" class="custom-file-label" for="imagePick">Choose file</label>
-                                </div>
-                                
-                            </div>
-                            <p id="labelPhoto" class="mt-1">(kosongkan jika tidak ingin mengubah foto)</p>
-                        </div>
-                    </div> -->
                     <div class="form-group row">
                         <label for="" class="col-sm-2">Status</label>
                         <div class="col-sm-10">
@@ -164,8 +151,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     <div class="form-group row">
@@ -182,7 +167,27 @@
                             <span>Selain indomie double bisa dikosongkan</span>
                         </div>
                     </div>
-
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2">Satuan</label>
+                        <div class="col-sm-10">
+                            <select name="unit" id="unit" class="form-control">
+                                <option value="">Pilih Satuan</option>
+                                <option value="Porsi">Porsi</option>
+                                <option value="Pcs">Pcs</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2">Keterangan</label>
+                        <div class="col-sm-10">
+                            <select name="remark" id="remark" class="form-control">
+                                <option value="">Pilih Keterangan</option>
+                                <option value="1">Produk Kita</option>
+                                <option value="2">Produk Luar</option>
+                                <option value="3">Frozen Food</option>
+                            </select>
+                        </div>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
@@ -390,12 +395,15 @@
         document.getElementById("imageBanner").src = path + '/' + image;
     }
 
-    function updateData(id, productName, productCategory, price, isActive, group) {
+    function updateData(id, productName, productCategory, price, isActive, group,stockReduction,unit,remark) {
         console.log(productCategory);
         document.getElementById("productName").value = productName;
         document.getElementById("productCategory").value = productCategory;
         document.getElementById("price").value = price;
         document.getElementById("group").value = group;
+        document.getElementById("stockReduction").value = stockReduction;
+        document.getElementById("unit").value = unit;
+        document.getElementById("remark").value = remark;
         // document.getElementById("labelNamePhoto").innerHTML = photo;
         // document.getElementById("labelPhoto").hidden = false;
         document.getElementById("form").action = `/update-produk/${id}`;

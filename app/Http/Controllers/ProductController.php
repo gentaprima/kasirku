@@ -51,6 +51,8 @@ class ProductController extends Controller
             'photo' => "",
             'group' => $request->group != null ? $request->group : $request->productName,
             'stock_reduction' => $request->stockReduction != null ? $request->stockReduction : 1,
+            'unit'=>$request->unit,
+            'remark'=>$request->remark
         ]);
 
         Session::flash('message', 'Product berhasil ditambahkan.');
@@ -78,6 +80,8 @@ class ProductController extends Controller
         $product->photo = $filename;
         $product->group = $request->group != null ? $request->group : $request->product_name;
         $product->stock_reduction = $request->stockReduction != null ? $request->stockReduction : 1;
+        $product->remark = $request->remark;
+        $product->unit = $request->unit;
         $product->save();
 
         Session::flash('message', 'Produk berhasil diperbarui.');
