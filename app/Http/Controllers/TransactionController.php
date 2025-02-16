@@ -412,16 +412,36 @@ class TransactionController extends Controller
 
     public function sendReportStock()
     {
-        $dataProduct = DB::table('tbl_product')
+        $dataProductFrozen = DB::table('tbl_product')
             ->where('stock', '>', 0)
+            ->where('remark', 3) // Frozen Food
+            ->groupBy('tbl_product.group')
+            ->get();
+
+        $dataProductKita = DB::table('tbl_product')
+            ->where('stock', '>', 0)
+            ->where('remark', 1) // Produk Kita
             ->groupBy('tbl_product.group')
             ->get();
 
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n\n";
 
-        foreach ($dataProduct as $product) {
-            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " pcs*\n";
+        // Tambahkan pembatas untuk Frozen Food
+        $textMessage .= "==============================\n";
+        $textMessage .= "❄️ *FROZEN FOOD*\n";
+        $textMessage .= "==============================\n";
+        foreach ($dataProductFrozen as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
+
+        // Tambahkan pembatas untuk Produk Kita
+        $textMessage .= "\n==============================\n";
+        $textMessage .= "🏠 *PRODUK KITA*\n";
+        $textMessage .= "==============================\n";
+        foreach ($dataProductKita as $product) {
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
+        }
+
 
         $this->sendToFonnte($textMessage);
     }
