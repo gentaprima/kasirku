@@ -52,6 +52,12 @@ Route::group(['middleware' => 'check.login','prefix' => '/'],function(){
     // input barang
     Route::get('/input-barang','DashboardController@input');
 
+    Route::get('/data-produk-komponen','DashboardController@getProductComponent');
+    Route::get('/show-component','ProductController@getComponent');
+    Route::get('/show-component-product','ProductController@getComponentProduct');
+    Route::post('/add-product-component','ProductController@storeComponentProduct');
+    Route::get('/get-product-component','ProductController@getProductComponent');
+
     Route::get('/logout', function () {
         Session::flush();
         return redirect('/');

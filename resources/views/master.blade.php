@@ -32,6 +32,10 @@ use Illuminate\Support\Facades\Session;
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dashboard/new-style.css') }}">
   <link rel="stylesheet" href="{{ asset('dashboard/style.css') }}">
+  <!-- Select -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+  
+  
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -40,6 +44,7 @@ use Illuminate\Support\Facades\Session;
   <script src="{{asset('dashboard/plugins/jquery/jquery.min.js')}}"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="{{asset('dashboard/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+  
   <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -104,7 +109,7 @@ use Illuminate\Support\Facades\Session;
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar elevation-4 sidebar-light-danger">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link mb-3" style="margin-top:21px;">
+      <a href="/" class="brand-link mb-3" style="margin-top:21px;">
         <!-- <img src="{{ asset('warkop.jpg') }}" alt="AdminLTE Logo" class="brand-image" style="width: 150px; "> -->
         <span class="brand-text font-weight-light" style="color:#000;">Warkop Tepi Sungai</span>
       </a>
@@ -148,10 +153,18 @@ use Illuminate\Support\Facades\Session;
               </a>
             </li>
             <li class="nav-item">
+              <a href="/data-produk-komponen" class="nav-link {{ Request::is('data-produk-component') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-list"></i>
+                <p>
+                  Produk Komponen
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="/input-barang" class="nav-link {{ Request::is('input-barang') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
-                  Input Barang
+                  Input Penjualan
                 </p>
               </a>
             </li>
@@ -258,6 +271,7 @@ use Illuminate\Support\Facades\Session;
   <script src="{{asset('dashboard/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
   <script src="{{asset('dashboard/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
   <script src="{{asset('dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+  <script src="{{asset('dashboard/plugins/select2/js/select2.full.min.js')}}"></script>
   <!-- <script src="sweetalert2.all.min.js"></script> -->
   <script>
     $(function() {

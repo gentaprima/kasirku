@@ -139,6 +139,8 @@
                                 <option value="">-- Pilih Kategori --</option>
                                 <option value="Makanan">Makanan</option>
                                 <option value="Minuman">Minuman</option>
+                                <option value="Bahan">Bahan</option>
+                                <option value="Produk-komponen">Produk komponen</option>
                             </select>
                         </div>
                     </div>

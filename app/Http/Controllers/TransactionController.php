@@ -466,13 +466,13 @@ class TransactionController extends Controller
 
     private function sendToFonnte($message)
     {
-        $token = "Y2gHrxWHxAZm6KdaLK21";
+        $token = "GJT6zWdjCzLQtkE23ktc";
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_URL => 'https://api.fonnte.com/send',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => ['target' => '120363166640669368@g.us', 'message' => $message],
+            CURLOPT_POSTFIELDS => ['target' => '120363144769894007@g.us', 'message' => $message],
             CURLOPT_HTTPHEADER => ["Authorization: $token"],
         ]);
         $response = curl_exec($curl);

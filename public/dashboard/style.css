@@ -247,3 +247,7 @@
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
   }
+
+  .select2-container .select2-selection--single{
+    height:40px !important;
+  }

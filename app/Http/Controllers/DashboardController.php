@@ -185,4 +185,13 @@ class DashboardController extends Controller
         $data['bulan'] = $formatBulan;
         return view('data-history', $data);
     }
+
+    public function getProductComponent(){
+        $data['dataProduct'] = DB::table('product_components')->get();
+        return view('data-product-component',$data);
+    }
+
+    public function showProductComponent(){
+        
+    }
 }

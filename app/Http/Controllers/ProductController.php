@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HistoryStock;
 use App\Models\ModelProduct;
+use App\Models\ProductComponent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -51,8 +52,8 @@ class ProductController extends Controller
             'photo' => "",
             'group' => $request->group != null ? $request->group : $request->productName,
             'stock_reduction' => $request->stockReduction != null ? $request->stockReduction : 1,
-            'unit'=>$request->unit,
-            'remark'=>$request->remark
+            'unit' => $request->unit,
+            'remark' => $request->remark
         ]);
 
         Session::flash('message', 'Product berhasil ditambahkan.');
@@ -202,6 +203,94 @@ class ProductController extends Controller
         return response()->json([
             'data' => $data,
             'success' => true
+        ]);
+    }
+
+    public function getComponent(Request $request)
+    {
+        if ($request->search != '') {
+            $dataProduct = DB::table('tbl_product')
+                ->where('product_name', 'like', '%' . $request->search . '%')
+                ->orWhere('price', 'like', '%' . $request->search . '%')
+                ->orWhere('product_category', '=', 'Bahan')
+                ->paginate(10);
+        } else {
+            $dataProduct = DB::table('tbl_product')->where('product_category', '=', 'Bahan')
+                ->paginate(10);
+        }
+
+        return response()->json([
+            'success'   => true,
+            'data'      => $dataProduct,
+        ]);
+    }
+    public function getComponentProduct(Request $request)
+    {
+        if ($request->search != '') {
+            $dataProduct = DB::table('tbl_product')
+                ->where('product_name', 'like', '%' . $request->search . '%')
+                ->orWhere('price', 'like', '%' . $request->search . '%')
+                ->orWhere('product_category', '=', 'Produk-komponen')
+                ->paginate(10);
+        } else {
+            $dataProduct = DB::table('tbl_product')->where('product_category', '=', 'Produk-komponen')
+                ->paginate(10);
+        }
+
+        return response()->json([
+            'success'   => true,
+            'data'      => $dataProduct,
+        ]);
+    }
+
+    public function storeComponentProduct(Request $request)
+    {
+        if ($request->product == null) {
+            return response()->json([
+                'success' => false,
+                'message' => "Produk tidak boleh kosong!"
+            ]);
+        }
+        if ($request->component == null) {
+            return response()->json([
+                'success' => false,
+                'message' => "Bahan tidak boleh kosong!"
+            ]);
+        }
+        if ($request->qty == null) {
+            return response()->json([
+                'success' => false,
+                'message' => "Quantity tidak boleh kosong!"
+            ]);
+        }
+
+        ProductComponent::create([
+            'product_id' => $request->product,
+            'component_id' => $request->component,
+            'quantity' => $request->qty
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Produk Komponen berhasil ditambahkan"
+        ]);
+    }
+
+    public function getProductComponent()
+    {
+        $data = DB::table('product_components')
+            ->join('tbl_product as main_product', 'product_components.product_id', '=', 'main_product.id') // Produk utama
+            ->join('tbl_product as component_product', 'product_components.component_id', '=', 'component_product.id') // Komponen bahan
+            ->select(
+                'product_components.id',
+                'main_product.product_name as main_product_name', // Nama produk utama
+                'component_product.product_name as component_name', // Nama komponen/bahan
+                'product_components.quantity' // Jumlah bahan yang digunakan
+            )
+            ->get();
+        return response()->json([
+            'success'   => true,
+            'data'      => $data,
         ]);
     }
 }
