@@ -34,7 +34,10 @@ class SendReportLowStockJob implements ShouldQueue
         $dataProduct = DB::table('tbl_product')
             ->where('stock', '>', 0)
             ->where('stock', '<=', 5)
-            ->where('remark', 1) // Produk Kita
+            ->where(function ($query) {
+                $query->where('remark', 1)
+                      ->orWhere('remark', 3);
+            })
             ->groupBy('tbl_product.group')
             ->get();
 
@@ -43,6 +46,7 @@ class SendReportLowStockJob implements ShouldQueue
         foreach ($dataProduct as $product) {
             $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
+        $this->sendToFonnte($textMessage);
     }
 
     private function sendToFonnte($message)
