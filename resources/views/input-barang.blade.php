@@ -50,7 +50,11 @@ use Illuminate\Support\Facades\Session;
 
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     <div class="card-body">
-                                        <input type="text" onkeydown="searchMakanan(this)" class="form-control mb-3" placeholder="Cari Makanan">
+                                        <!-- <input type="text" onkeydown="searchMakanan(this)" class="form-control mb-3" placeholder="Cari Makanan"> -->
+                                        <div class="search-container mb-3">
+                                            <input type="text" id="searchMakananInput" oninput="toggleClearButtonMakanan()" onkeydown="searchMakanan(this)" class="form-control" placeholder="Cari Makanan">
+                                            <span class="clear-btn" onclick="clearSearchMakanan()">✕</span>
+                                        </div>
                                         <ul class="list-group makanan">
                                             <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 An item <span class="text-primary fw-bold badge btn-primary">+</span>
@@ -69,7 +73,11 @@ use Illuminate\Support\Facades\Session;
                                 </div>
                                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                     <div class="card-body">
-                                        <input type="text" onkeydown="searchMinuman(this)" class="form-control mb-3" placeholder="Cari Minuman">
+                                        <!-- <input type="text" onkeydown="searchMinuman(this)" class="form-control mb-3" placeholder="Cari Minuman"> -->
+                                        <div class="search-container-minuman mb-3">
+                                            <input type="text" id="searchMinumanInput" oninput="toggleClearButtonMinuman()" onkeydown="searchMinuman(this)" class="form-control" placeholder="Cari Minuman">
+                                            <span class="clear-btn-minuman" onclick="clearSearchMinuman()">✕</span>
+                                        </div>
                                         <ul class="list-group minuman">
 
                                         </ul>
@@ -179,6 +187,49 @@ use Illuminate\Support\Facades\Session;
     loadDataMinuman("");
     getCart();
 
+    function toggleClearButtonMakanan() {
+        let input = document.getElementById("searchMakananInput");
+        let clearBtn = document.querySelector(".clear-btn");
+
+        // Jika ada teks, tampilkan tombol "X", jika kosong sembunyikan
+        if (input.value.length > 0) {
+            clearBtn.style.display = "block";
+        } else {
+            clearBtn.style.display = "none";
+        }
+    }
+
+    function toggleClearButtonMinuman() {
+        let input = document.getElementById("searchMinumanInput");
+        let clearBtn = document.querySelector(".clear-btn-minuman");
+
+        // Jika ada teks, tampilkan tombol "X", jika kosong sembunyikan
+        if (input.value.length > 0) {
+            clearBtn.style.display = "block";
+        } else {
+            clearBtn.style.display = "none";
+        }
+    }
+
+    function clearSearchMakanan() {
+        let input = document.getElementById("searchMakananInput");
+        let clearBtn = document.querySelector(".clear-btn");
+        input.value = ""; // Kosongkan input
+        input.focus(); // Fokus kembali ke input
+        loadDataMakanan(""); // Panggil fungsi pencarian untuk update hasil
+        clearBtn.style.display = "none";
+
+    }
+    function clearSearchMinuman() {
+        let input = document.getElementById("searchMinumanInput");
+        let clearBtn = document.querySelector(".clear-btn-minuman");
+        input.value = ""; // Kosongkan input
+        input.focus(); // Fokus kembali ke input
+        loadDataMinuman(""); // Panggil fungsi pencarian untuk update hasil
+        clearBtn.style.display = "none";
+
+    }
+
     function edit() {
         $idUsers = $("#idUsers").html();
         $.ajax({
@@ -240,7 +291,10 @@ use Illuminate\Support\Facades\Session;
                         $(".list-group.makanan").append(`
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         ${item.product_name}   
-                        <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span>
+                        <button class="text-primary fw-bold badge btn-primary btn-addCart" 
+                            onclick="addCartMinuman(this, ${item.id}, 'Tanpa Topping')">
+                            +
+                        </button>
                     </li>
                 `);
                     });
@@ -274,8 +328,11 @@ use Illuminate\Support\Facades\Session;
                     response.data.data.forEach(function(item) {
                         $(".list-group.minuman").append(`
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            ${item.product_name}   
-                            <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span>
+                            ${item.product_name}
+                            <button class="text-primary fw-bold badge btn-primary btn-addCart" 
+                                onclick="addCartMinuman(this, ${item.id}, 'Tanpa Topping')">
+                                +
+                            </button>
                         </li>
                     `);
                     });
@@ -330,8 +387,14 @@ use Illuminate\Support\Facades\Session;
         })
     }
 
-    function addCartMinuman(id, topping) {
+    function addCartMinuman(button, id, topping) {
         var idUsers = $("#idUsers").html();
+        var btn = $(button); // Ambil tombol yang diklik
+        var originalText = btn.html(); // Simpan teks asli tombol
+
+        // Ubah tombol jadi loading & disable
+        btn.html('<span class="spinner-border spinner-border-sm"></span> Loading...')
+            .prop("disabled", true);
 
         $.ajax({
             type: 'post',
@@ -344,10 +407,8 @@ use Illuminate\Support\Facades\Session;
                 topping: topping
             }),
             success: function(response) {
-                console.log(response);
 
                 if (response.success) {
-                    navigator.vibrate(200); // Getaran 200ms saat sukses
                     Toast.fire({
                         icon: "success",
                         title: response.message
@@ -355,7 +416,6 @@ use Illuminate\Support\Facades\Session;
                     getCart();
                     edit();
                 } else {
-                    navigator.vibrate([100, 50, 100]); // Getaran pola [100ms, jeda 50ms, 100ms] saat gagal
                     Toast.fire({
                         icon: "error",
                         title: response.message
@@ -363,11 +423,14 @@ use Illuminate\Support\Facades\Session;
                 }
             },
             error: function() {
-                navigator.vibrate([100, 50, 100]); // Getaran pola saat terjadi error
                 Toast.fire({
                     icon: "error",
                     title: "Terjadi kesalahan, coba lagi!"
                 });
+            },
+            complete: function() {
+                // Kembalikan tombol ke kondisi semula setelah request selesai
+                btn.html(originalText).prop("disabled", false);
             }
         });
     }
@@ -400,8 +463,12 @@ use Illuminate\Support\Facades\Session;
                         title: response.message
                     });
                 }
-
-
+            },
+            error: function() {
+                Toast.fire({
+                    icon: "error",
+                    title: "Terjadi kesalahan, coba lagi!"
+                });
             }
         })
     }

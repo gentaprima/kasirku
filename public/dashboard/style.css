@@ -25,13 +25,16 @@
     color: #000;
     font-weight: bold !important;
 }
-.text-primary{
-    color:#967E76 !important;
+
+.text-primary {
+    color: #967E76 !important;
 }
-.bg-chocolate{
+
+.bg-chocolate {
     background-color: #967E76 !important
 }
-.badge-chocolate{
+
+.badge-chocolate {
     background-color: #967E76 !important
 }
 
@@ -81,6 +84,7 @@
     color: #fff !important;
     background-color: #967E76 !important;
 }
+
 .btn-primary:hover {
     cursor: pointer;
 }
@@ -189,14 +193,15 @@
     margin-left: auto;
 }
 
-.paginate_button.next  > a {
+.paginate_button.next>a {
     margin-left: 8px;
-    background-color: #001f3f!important;
+    background-color: #001f3f !important;
     border-radius: 4px !important;
     color: #fff;
     padding: 5px 8px 5px 8px;
-  }
-  .paginate_button.active  > a {
+}
+
+.paginate_button.active>a {
     background-color: #967E76 !important;
     border-radius: 4px;
     margin-left: 8px;
@@ -204,50 +209,114 @@
     width: 32px;
     color: #fff;
     padding: 5px 8px 5px 8px;
-  } 
+}
 
-  .paginate_button.next > a > i{
+.paginate_button.next>a>i {
     position: relative;
     top: 1px;
-  }
-  .paginate_button.next.prev.disabledd > a >i {
+}
+
+.paginate_button.next.prev.disabledd>a>i {
     position: relative;
     top: 1px;
-  }
-  .paginate_button.next.prev.disabledd > a {
+}
+
+.paginate_button.next.prev.disabledd>a {
     opacity: .6;
     cursor: not-allowed;
-  }
-  .paginate_button.next.disabledd > a {
+}
+
+.paginate_button.next.disabledd>a {
     opacity: .6;
     cursor: not-allowed;
-  }
-  .paginate_button.previous{
+}
+
+.paginate_button.previous {
     margin-right: 8px !important;
     border: none !important;
     font-weight: bold !important;
     color: #eee !important;
-    background-color: #001f3f!important;
-  }
-  .paginate_button.previous > a:hover{
-    color : #FFF;
-    cursor: pointer;
-  }
-  .paginate_button.next > a:hover{
-    color : #FFF;
-    cursor: pointer;    
- 
-  }
-  
-  .paginate_button.next > a:focus{
-    color : #FFF;
-  }
+    background-color: #001f3f !important;
+}
 
-  .border-search{
+.paginate_button.previous>a:hover {
+    color: #FFF;
+    cursor: pointer;
+}
+
+.paginate_button.next>a:hover {
+    color: #FFF;
+    cursor: pointer;
+
+}
+
+.paginate_button.next>a:focus {
+    color: #FFF;
+}
+
+.border-search {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
-  }
+}
 
-  .select2-container .select2-selection--single{
-    height:40px !important;
-  }
+.select2-container .select2-selection--single {
+    height: 40px !important;
+}
+
+/* new */
+
+.search-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.search-container input {
+    width: 100%;
+    padding-right: 30px;
+    /* Ruang untuk tombol "X" */
+}
+
+.search-container .clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: none;
+    /* Sembunyikan awalnya */
+    font-size: 18px;
+    color: #aaa;
+}
+
+.search-container .clear-btn:hover {
+    color: #555;
+}
+
+.search-container-minuman {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.search-container-minuman input {
+    width: 100%;
+    padding-right: 30px;
+    /* Ruang untuk tombol "X" */
+}
+
+.search-container-minuman .clear-btn-minuman {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: none;
+    /* Sembunyikan awalnya */
+    font-size: 18px;
+    color: #aaa;
+}
+
+.search-container-minuman .clear-btn-minuman:hover {
+    color: #555;
+}
