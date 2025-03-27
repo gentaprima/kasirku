@@ -173,6 +173,8 @@ use Illuminate\Support\Facades\Session;
     </div>
 </div>
 <script>
+    let debounceTimerMakanan;
+    let debounceTimerMinuman;
     loadDataMakanan("");
     loadDataMinuman("");
     getCart();
@@ -213,46 +215,76 @@ use Illuminate\Support\Facades\Session;
         })
     }
 
-    function loadDataMakanan(key) {
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            url: '/api/get-product',
-            contentType: 'application/json',
-            data: JSON.stringify({ // Data yang dikirim ke API
-                category: "Makanan",
-                search: `${key}`
-            }),
-            success: function(response) {
-                $(".list-group.makanan").empty();
-                // Iterasi setiap item dalam respons dan tambahkan ke dalam <ul>
-                response.data.data.forEach(function(item) {
-                    $(".list-group.makanan").append(`<li class="list-group-item d-flex justify-content-between align-items-center">${item.product_name}   <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span></li>`);
 
-                });
-            }
-        })
+
+    function loadDataMakanan(key) {
+        clearTimeout(debounceTimerMakanan); // Hapus timer sebelumnya
+
+        debounceTimerMakanan = setTimeout(() => {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/api/get-product',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    category: "Makanan",
+                    search: key
+                }),
+                beforeSend: function() {
+                    $(".list-group.makanan").html('<li class="list-group-item text-center">Loading...</li>'); // Tampilkan indikator loading
+                },
+                success: function(response) {
+                    $(".list-group.makanan").empty(); // Bersihkan hasil sebelumnya
+
+                    response.data.data.forEach(function(item) {
+                        $(".list-group.makanan").append(`
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${item.product_name}   
+                        <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span>
+                    </li>
+                `);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching products:", error);
+                    $(".list-group.makanan").html('<li class="list-group-item text-danger text-center">Gagal mengambil data</li>'); // Tampilkan pesan error
+                }
+            });
+        }, 500); // Delay 500ms sebelum request dikirim
     }
 
     function loadDataMinuman(key) {
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            url: '/api/get-product',
-            contentType: 'application/json',
-            data: JSON.stringify({ // Data yang dikirim ke API
-                category: "Minuman",
-                search: `${key}`
-            }),
-            success: function(response) {
-                $(".list-group.minuman").empty();
-                // Iterasi setiap item dalam respons dan tambahkan ke dalam <ul>
-                response.data.data.forEach(function(item) {
-                    $(".list-group.minuman").append(`<li class="list-group-item d-flex justify-content-between align-items-center">${item.product_name} <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span></li>`);
+        clearTimeout(debounceTimerMinuman); // Hapus timer sebelumnya
 
-                });
-            }
-        })
+        debounceTimerMinuman = setTimeout(() => {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/api/get-product',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    category: "Minuman",
+                    search: key
+                }),
+                beforeSend: function() {
+                    $(".list-group.minuman").html('<li class="list-group-item text-center">Loading...</li>'); // Indikator loading
+                },
+                success: function(response) {
+                    $(".list-group.minuman").empty();
+                    response.data.data.forEach(function(item) {
+                        $(".list-group.minuman").append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${item.product_name}   
+                            <span class="text-primary fw-bold badge btn-primary" onclick="addCartMinuman(${item.id},'Tanpa Topping')">+</span>
+                        </li>
+                    `);
+                    });
+                },
+                error: function() {
+                    $(".list-group.minuman").html('<li class="list-group-item text-danger text-center">Gagal mengambil data</li>');
+                }
+            });
+        }, 500); // Delay 500ms sebelum request dikirim
     }
 
     function searchMakanan(val) {
@@ -313,7 +345,9 @@ use Illuminate\Support\Facades\Session;
             }),
             success: function(response) {
                 console.log(response);
+
                 if (response.success) {
+                    navigator.vibrate(200); // Getaran 200ms saat sukses
                     Toast.fire({
                         icon: "success",
                         title: response.message
@@ -321,18 +355,24 @@ use Illuminate\Support\Facades\Session;
                     getCart();
                     edit();
                 } else {
+                    navigator.vibrate([100, 50, 100]); // Getaran pola [100ms, jeda 50ms, 100ms] saat gagal
                     Toast.fire({
                         icon: "error",
                         title: response.message
                     });
                 }
-
-
+            },
+            error: function() {
+                navigator.vibrate([100, 50, 100]); // Getaran pola saat terjadi error
+                Toast.fire({
+                    icon: "error",
+                    title: "Terjadi kesalahan, coba lagi!"
+                });
             }
-        })
+        });
     }
 
-    function minCart(id,topping) {
+    function minCart(id, topping) {
         var idUsers = $("#idUsers").html();
 
         $.ajax({

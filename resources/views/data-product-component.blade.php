@@ -156,9 +156,9 @@
                         };
                     },
                     processResults: function(data) {
-                        console.log()
                         return {
-                            results: $.map(data, function(item) {
+                            results: $.map(data.data, function(item) {
+                                console.log(item);
                                 return {
                                     id: item.id,
                                     text: item.product_name

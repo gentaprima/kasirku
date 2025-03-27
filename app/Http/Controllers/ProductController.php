@@ -229,12 +229,10 @@ class ProductController extends Controller
         if ($request->search != '') {
             $dataProduct = DB::table('tbl_product')
                 ->where('product_name', 'like', '%' . $request->search . '%')
-                ->orWhere('price', 'like', '%' . $request->search . '%')
-                ->orWhere('product_category', '=', 'Produk-komponen')
-                ->paginate(10);
+                ->get();
         } else {
-            $dataProduct = DB::table('tbl_product')->where('product_category', '=', 'Produk-komponen')
-                ->paginate(10);
+            $dataProduct = DB::table('tbl_product')->where('product_category', '=', 'Makanan')->groupBy('group')
+                ->get();
         }
 
         return response()->json([
