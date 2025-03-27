@@ -34,8 +34,8 @@ use Illuminate\Support\Facades\Session;
   <link rel="stylesheet" href="{{ asset('dashboard/style.css') }}">
   <!-- Select -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-  
-  
+
+
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Session;
   <script src="{{asset('dashboard/plugins/jquery/jquery.min.js')}}"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="{{asset('dashboard/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-  
+
   <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -55,6 +55,62 @@ use Illuminate\Support\Facades\Session;
 
     .navbar-nav li a {
       color: #fff !important;
+    }
+    /* new */
+    .search-container {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding-right: 30px;
+      /* Ruang untuk tombol "X" */
+    }
+
+    .search-container .clear-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      display: none;
+      /* Sembunyikan awalnya */
+      font-size: 18px;
+      color: #aaa;
+    }
+
+    .search-container .clear-btn:hover {
+      color: #555;
+    }
+
+    .search-container-minuman {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .search-container-minuman input {
+      width: 100%;
+      padding-right: 30px;
+      /* Ruang untuk tombol "X" */
+    }
+
+    .search-container-minuman .clear-btn-minuman {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      display: none;
+      /* Sembunyikan awalnya */
+      font-size: 18px;
+      color: #aaa;
+    }
+
+    .search-container-minuman .clear-btn-minuman:hover {
+      color: #555;
     }
   </style>
 
