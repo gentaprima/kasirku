@@ -1,7 +1,7 @@
 .style-header {
     left: 54px;
     right: 0px;
-    background: #967E76;
+    background: #80cee1;
     color: #fff;
     border-bottom-right-radius: 10px;
     height: 80px;
@@ -27,15 +27,15 @@
 }
 
 .text-primary {
-    color: #967E76 !important;
+    color: #80cee1 !important;
 }
 
 .bg-chocolate {
-    background-color: #967E76 !important
+    background-color: #80cee1 !important
 }
 
 .badge-chocolate {
-    background-color: #967E76 !important
+    background-color: #80cee1 !important
 }
 
 .rounded {
@@ -43,19 +43,19 @@
 }
 
 .table th {
-    background-color: #967E76;
+    background-color: #80cee1;
     color: #fff;
 }
 
 .page-item.active .page-link {
-    background-color: #967E76 !important;
-    border-color: #967E76 !important;
+    background-color: #80cee1 !important;
+    border-color: #80cee1 !important;
 }
 
 .btn-outline-primary {
     background-color: transparent !important;
-    border-color: #967E76 !important;
-    color: #967E76 !important;
+    border-color: #80cee1 !important;
+    color: #80cee1 !important;
     border-radius: 10px;
 
 }
@@ -82,7 +82,7 @@
 .btn-primary {
     border: none;
     color: #fff !important;
-    background-color: #967E76 !important;
+    background-color: #80cee1 !important;
 }
 
 .btn-primary:hover {
@@ -118,7 +118,7 @@
 .sidebar-dark-danger .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-danger .nav-sidebar>.nav-item>.nav-link.active {
     color: #fff !important;
-    background-color: #967E76 !important;
+    background-color: #80cee1 !important;
 }
 
 
@@ -180,7 +180,7 @@
 }
 
 .mcp-stream-offline {
-    color: #967E76;
+    color: #80cee1;
     font-weight: bold;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .paginate_button.active>a {
-    background-color: #967E76 !important;
+    background-color: #80cee1 !important;
     border-radius: 4px;
     margin-left: 8px;
     height: 32px;

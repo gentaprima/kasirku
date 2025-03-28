@@ -120,7 +120,7 @@ use Illuminate\Support\Facades\Session;
   <div class="wrapper" style="background-color: #f4f6f9;">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="padding:19px 0.5rem !important;background-color:#967E76;">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="padding:19px 0.5rem !important;background-color:#80cee1;">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
