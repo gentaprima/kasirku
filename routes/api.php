@@ -33,3 +33,4 @@ Route::get('/send-wa-stock','TransactionController@sendWhatsAppMessageStockLitle
 Route::get('/test','TransactionController@sendGroup');
 Route::get('/send-report-stock','TransactionController@sendReportStock');
 Route::get('/send-report-low-stock','TransactionController@sendReportLowStock');
+Route::get('/clear-cache','DashboardController@clearCache');
