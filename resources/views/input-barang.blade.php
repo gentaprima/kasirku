@@ -255,7 +255,7 @@ use Illuminate\Support\Facades\Session;
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <span class="badge badge-chocolate badge-pill mr-3">${item.quantity} pcs</span>
-                                    <button class="btn btn-primary btn-sm mr-1" onClick="addCartMinuman(${item.id_product},'${item.topping}')">+</button>
+                                    <button class="btn btn-primary btn-sm mr-1" onClick="addCartMinuman(this,${item.id_product},'${item.topping}')">+</button>
                                     <button class="btn btn-default btn-sm" onClick="minCart(${item.id_product},'${item.topping}')">-</button>
                                 </div>
                             </li>
