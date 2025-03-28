@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -166,7 +167,7 @@ class DashboardController extends Controller
             $bulan = $split[1];
             $tahun = $split[0];
         }
-        $ $filter = $request->bulan;
+        $$filter = $request->bulan;
         if ($filter == null) {
             $bulan = date('m');
             $tahun = date('Y');
@@ -175,7 +176,7 @@ class DashboardController extends Controller
             $bulan = $split[1];
             $tahun = $split[0];
         }
-        $formatBulan = DateTime::createFromFormat('!m', $bulan)->format('F') .' '. $tahun; 
+        $formatBulan = DateTime::createFromFormat('!m', $bulan)->format('F') . ' ' . $tahun;
 
         $dataHistory = DB::table('tbl_history_stock')
             ->whereYear('date', $tahun)  // 'tanggal' adalah kolom dengan tipe data DATE
@@ -186,12 +187,20 @@ class DashboardController extends Controller
         return view('data-history', $data);
     }
 
-    public function getProductComponent(){
+    public function getProductComponent()
+    {
         $data['dataProduct'] = DB::table('product_components')->get();
-        return view('data-product-component',$data);
+        return view('data-product-component', $data);
     }
 
-    public function showProductComponent(){
-        
+    public function showProductComponent() {}
+
+    public function clearCache()
+    {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        echo "Cache cleared!";
     }
 }

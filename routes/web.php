@@ -57,6 +57,7 @@ Route::group(['middleware' => 'check.login','prefix' => '/'],function(){
     Route::get('/show-component-product','ProductController@getComponentProduct');
     Route::post('/add-product-component','ProductController@storeComponentProduct');
     Route::get('/get-product-component','ProductController@getProductComponent');
+    Route::get('/clear-cache','DashboardController@clearCache');
 
     Route::get('/logout', function () {
         Session::flush();
