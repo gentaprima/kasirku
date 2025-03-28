@@ -123,7 +123,7 @@
                 <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
             </div>
-            <div class="bg-chocolate rounded-modal" style="background-color: #967E76 !important;height:15px;"></div>
+            <div class="bg-chocolate rounded-modal" style="height:15px;"></div>
         </div>
     </div>
 </div>
@@ -156,7 +156,7 @@
                 <button type="button" onclick="addTopping()" class="btn btn-primary">Tambah</button>
                 </form>
             </div>
-            <div class="bg-chocolate rounded-modal" style="background-color: #967E76 !important;height:15px;"></div>
+            <div class="bg-chocolate rounded-modal" style="height:15px;"></div>
         </div>
     </div>
 </div>
