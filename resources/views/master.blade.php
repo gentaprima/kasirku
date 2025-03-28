@@ -30,8 +30,8 @@ use Illuminate\Support\Facades\Session;
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/summernote/summernote-bs4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('dashboard/new-style.css') }}">
-  <link rel="stylesheet" href="{{ asset('dashboard/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('dashboard/new-style.css') }}?v={{ time() }}">
+  <link rel="stylesheet" href="{{ asset('dashboard/style.css') }}?v={{ time() }}">
   <!-- Select -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 

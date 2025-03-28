@@ -19,8 +19,8 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('login/vendor/select2/select2.min.css')}}">
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('login/css/util.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('login/css/main.css')}}">
-	<link rel="stylesheet" href="{{ asset('dashboard/new-style.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{asset('login/css/main.css')}}?v={{ time() }}">
+	<link rel="stylesheet" href="{{ asset('dashboard/new-style.css') }}?v={{ time() }}">
 	<!--===============================================================================================-->
 </head>
 
