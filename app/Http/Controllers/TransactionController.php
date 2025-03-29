@@ -477,7 +477,6 @@ class TransactionController extends Controller
         //     ->get();
 
         $dataProductFrozen = DB::table('tbl_product')
-            ->where('stock', '>', 0) // Produk dengan stok lebih dari 0
             ->where('remark', 3) // Produk Frozen Food
             ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
