@@ -52,7 +52,6 @@
                             <th>No</th>
                             <th>Nama Produk</th>
                             <th>Bahan</th>
-                            <th>Quantity</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -260,8 +259,7 @@
                             <tr>
                                 <td>${index + 1}</td>
                                 <td>${item.main_product_name}</td>
-                                <td>${item.component_name}</td>
-                                <td>${item.quantity}</td>
+                                <td>${item.component_names}</td>
                                 <td>
                                     <button class="btn btn-secondary btn-sm btn-sm" data-id="${item.id}"><i class="fa fa-trash"></i></button>
                                 </td>

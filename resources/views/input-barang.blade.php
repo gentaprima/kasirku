@@ -84,6 +84,27 @@ use Illuminate\Support\Facades\Session;
                                     </div>
                                 </div>
                             </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed text-primary font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Pilih Topping
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <!-- <input type="text" onkeydown="searchMinuman(this)" class="form-control mb-3" placeholder="Cari Minuman"> -->
+                                        <div class="search-container-topping mb-3">
+                                            <input type="text" id="searchMinumanInput" oninput="toggleClearButtonMinuman()" onkeydown="searchTopping(this)" class="form-control" placeholder="Cari Topping">
+                                            <span class="clear-btn-topping" onclick="clearSearchTopping()">✕</span>
+                                        </div>
+                                        <ul class="list-group topping">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,8 +204,10 @@ use Illuminate\Support\Facades\Session;
 <script>
     let debounceTimerMakanan;
     let debounceTimerMinuman;
+    let debounceTimerTopping;
     loadDataMakanan("");
     loadDataMinuman("");
+    loadDataTopping("");
     getCart();
 
     function toggleClearButtonMakanan() {
@@ -306,6 +329,44 @@ use Illuminate\Support\Facades\Session;
             });
         }, 500); // Delay 500ms sebelum request dikirim
     }
+    function loadDataTopping(key) {
+        clearTimeout(debounceTimerTopping); // Hapus timer sebelumnya
+
+        debounceTimerTopping = setTimeout(() => {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '/api/get-product',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    category: "Bahan",
+                    search: key
+                }),
+                beforeSend: function() {
+                    $(".list-group.topping").html('<li class="list-group-item text-center">Loading...</li>'); // Tampilkan indikator loading
+                },
+                success: function(response) {
+                    $(".list-group.topping").empty(); // Bersihkan hasil sebelumnya
+
+                    response.data.data.forEach(function(item) {
+                        $(".list-group.topping").append(`
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${item.product_name}   
+                        <button class="text-primary fw-bold badge btn-primary btn-addCart" 
+                            onclick="addCartMinuman(this, ${item.id}, 'Tanpa Topping')">
+                            +
+                        </button>
+                    </li>
+                `);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching products:", error);
+                    $(".list-group.topping").html('<li class="list-group-item text-danger text-center">Gagal mengambil data</li>'); // Tampilkan pesan error
+                }
+            });
+        }, 500); // Delay 500ms sebelum request dikirim
+    }
 
     function loadDataMinuman(key) {
         clearTimeout(debounceTimerMinuman); // Hapus timer sebelumnya
@@ -350,6 +411,9 @@ use Illuminate\Support\Facades\Session;
 
     function searchMinuman(val) {
         loadDataMinuman(val.value);
+    }
+    function searchTopping(val) {
+        loadDataTopping(val.value);
     }
 
     function addCart() {

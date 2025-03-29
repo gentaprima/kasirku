@@ -112,6 +112,34 @@ use Illuminate\Support\Facades\Session;
     .search-container-minuman .clear-btn-minuman:hover {
       color: #555;
     }
+    
+    .search-container-topping {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .search-container-topping input {
+      width: 100%;
+      padding-right: 30px;
+      /* Ruang untuk tombol "X" */
+    }
+
+    .search-container-topping .clear-btn-topping {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      display: none;
+      /* Sembunyikan awalnya */
+      font-size: 18px;
+      color: #aaa;
+    }
+
+    .search-container-topping .clear-btn-topping:hover {
+      color: #555;
+    }
   </style>
 
 </head>

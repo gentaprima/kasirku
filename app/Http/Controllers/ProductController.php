@@ -196,9 +196,22 @@ class ProductController extends Controller
     // API
     public function getProduct(Request $request)
     {
-        $data = DB::table('tbl_product')
-            ->where('product_category', '=', $request->category)
-            ->where('product_name', 'like', '%' . $request->search . '%')->paginate(10);
+        if ($request->category == "Makanan") {
+            $data = DB::table('tbl_product')
+                ->where(function ($query) use ($request) {
+                    $query->where('product_category', '=', $request->category)
+                        ->orWhere('product_category', '=', "Produk komponen");
+                })
+                ->where('product_name', 'like', '%' . $request->search . '%')
+                ->paginate(10);
+        } else {
+
+            $data = DB::table('tbl_product')
+                ->where('product_category', '=', $request->category)
+                ->where('product_name', 'like', '%' . $request->search . '%')->paginate(10);
+        }
+
+
 
         return response()->json([
             'data' => $data,
@@ -280,12 +293,12 @@ class ProductController extends Controller
             ->join('tbl_product as main_product', 'product_components.product_id', '=', 'main_product.id') // Produk utama
             ->join('tbl_product as component_product', 'product_components.component_id', '=', 'component_product.id') // Komponen bahan
             ->select(
-                'product_components.id',
                 'main_product.product_name as main_product_name', // Nama produk utama
-                'component_product.product_name as component_name', // Nama komponen/bahan
-                'product_components.quantity' // Jumlah bahan yang digunakan
+                DB::raw("GROUP_CONCAT(component_product.product_name ORDER BY component_product.product_name SEPARATOR ', ') as component_names") // Gabungkan bahan dalam satu kolom
             )
+            ->groupBy('main_product.product_name') // Kelompokkan berdasarkan produk utama
             ->get();
+
         return response()->json([
             'success'   => true,
             'data'      => $data,

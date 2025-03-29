@@ -56,6 +56,65 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function storeNew(Request $request)
+    {
+        $idUsers = $request->idUsers;
+        $total = $request->total;
+
+        $dataCart = DB::table('tbl_cart')
+            ->select('tbl_cart.*', 'tbl_product.id as id_product', 'tbl_product.product_name', 'tbl_product.product_category', 'tbl_product.group', 'tbl_product.stock_reduction', 'tbl_product.stock', 'tbl_product.remaining_stock')
+            ->where('id_users', '=', $idUsers)->where('is_order', '=', 0)
+            ->join('tbl_product', 'tbl_cart.id_product', '=', 'tbl_product.id')->get();
+        $dataTransaction = [];
+        for ($i = 0; $i < count($dataCart); $i++) {
+            //kurangi stock main product
+            $product = DB::table('tbl_product')->where('id', '=', $dataCart[$i]->id_product)->first();
+            $reductStock = $product->stock_reduction * $dataCart[$i]->quantity;
+            $remainStock = $product->stock - $reductStock;
+            $productUpdate = ModelProduct::where('group', $dataCart[$i]->group);
+            $productUpdate->update(['stock' => $remainStock]);
+
+            //kurangi stock component product
+            $componentProduct = DB::table('product_components')->where('product_id','=',$dataCart[$i]->id_product)->get();
+            if(count($componentProduct) > 0){
+                for($x = 0;$x < count($componentProduct);$x++){
+                    $productComponentId = $componentProduct[$x]->component_id;
+                    $product = DB::table('tbl_product')->where('id', '=', $productComponentId)->first();
+                    $reductStock =  $componentProduct[$x]->quantity * $dataCart[$i]->quantity;
+                    $remainStock = $product->stock - $reductStock;
+                    $productUpdate = ModelProduct::where('group', $product->group);
+                    $productUpdate->update(['stock' => $remainStock]);
+                }
+            }
+            
+        }
+
+
+        $idOrder = "ORD-" . date('YmdHis');
+        for ($i = 0; $i < count($dataCart); $i++) {
+            $data = [
+                "order_id"  => $idOrder,
+                'total'     => $total,
+                'date'      => date('Y-m-d'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'id_cart'   => $dataCart[$i]->id
+            ];
+            array_push($dataTransaction, $data);
+
+            // update cart
+            $dataCartUpdate = ModelCart::find($dataCart[$i]->id);
+
+            $dataCartUpdate->is_order = 1;
+            $dataCartUpdate->save();
+        }
+        DB::table('tbl_transaction')->insert($dataTransaction);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Transaksi berhasil dilakukan."
+        ]);
+    }
+
     public function getIncome(Request $request)
     {
         $firstdate = $request->date;
@@ -453,7 +512,7 @@ class TransactionController extends Controller
             ->where('stock', '<=', 5)
             ->where(function ($query) {
                 $query->where('remark', 1)
-                      ->orWhere('remark', 3);
+                    ->orWhere('remark', 3);
             })
             ->groupBy('tbl_product.group')
             ->get();
@@ -461,7 +520,7 @@ class TransactionController extends Controller
         $textMessage = "📢 *STOCK TINGGAL DIKIT NICHHHH* \n\n";
 
         foreach ($dataProduct as $product) {
-            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " ". $product->unit . "*\n";
+            $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
 
         $this->sendToFonnte($textMessage);
