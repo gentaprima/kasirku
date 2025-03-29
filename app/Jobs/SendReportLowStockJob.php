@@ -31,13 +31,23 @@ class SendReportLowStockJob implements ShouldQueue
      */
     public function handle()
     {
+        // $dataProduct = DB::table('tbl_product')
+        //     ->where('stock', '>', 0)
+        //     ->where('stock', '<=', 5)
+        //     ->where(function ($query) {
+        //         $query->where('remark', 1)
+        //               ->orWhere('remark', 3);
+        //     })
+        //     ->groupBy('tbl_product.group')
+        //     ->get();
+
         $dataProduct = DB::table('tbl_product')
-            ->where('stock', '>', 0)
             ->where('stock', '<=', 5)
             ->where(function ($query) {
                 $query->where('remark', 1)
-                      ->orWhere('remark', 3);
+                    ->orWhere('remark', 3);
             })
+            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Tambahkan pengecualian kategori
             ->groupBy('tbl_product.group')
             ->get();
 

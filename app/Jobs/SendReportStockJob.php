@@ -32,14 +32,25 @@ class SendReportStockJob implements ShouldQueue
     public function handle()
     {
         $dataProductFrozen = DB::table('tbl_product')
-            ->where('stock', '>', 0)
-            ->where('remark', 3) // Frozen Food
+            ->where('remark', 3) // Produk Frozen Food
+            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
 
+        // $dataProductFrozen = DB::table('tbl_product')
+        //     ->where('stock', '>', 0)
+        //     ->where('remark', 3) // Frozen Food
+        //     ->groupBy('tbl_product.group')
+        //     ->get();
+
+        // $dataProductKita = DB::table('tbl_product')
+        //     ->where('stock', '>', 0)
+        //     ->where('remark', 1) // Produk Kita
+        //     ->groupBy('tbl_product.group')
+        //     ->get();
         $dataProductKita = DB::table('tbl_product')
-            ->where('stock', '>', 0)
             ->where('remark', 1) // Produk Kita
+            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
 
@@ -60,7 +71,7 @@ class SendReportStockJob implements ShouldQueue
         foreach ($dataProductKita as $product) {
             $textMessage .= "🔹 " . $product->group . ": *" . $product->stock . " " . $product->unit . "*\n";
         }
-        
+
         $this->sendToFonnte($textMessage);
     }
 
