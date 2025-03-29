@@ -75,9 +75,9 @@ class TransactionController extends Controller
             $productUpdate->update(['stock' => $remainStock]);
 
             //kurangi stock component product
-            $componentProduct = DB::table('product_components')->where('product_id','=',$dataCart[$i]->id_product)->get();
-            if(count($componentProduct) > 0){
-                for($x = 0;$x < count($componentProduct);$x++){
+            $componentProduct = DB::table('product_components')->where('product_id', '=', $dataCart[$i]->id_product)->get();
+            if (count($componentProduct) > 0) {
+                for ($x = 0; $x < count($componentProduct); $x++) {
                     $productComponentId = $componentProduct[$x]->component_id;
                     $product = DB::table('tbl_product')->where('id', '=', $productComponentId)->first();
                     $reductStock =  $componentProduct[$x]->quantity * $dataCart[$i]->quantity;
@@ -86,7 +86,6 @@ class TransactionController extends Controller
                     $productUpdate->update(['stock' => $remainStock]);
                 }
             }
-            
         }
 
 
@@ -471,17 +470,31 @@ class TransactionController extends Controller
 
     public function sendReportStock()
     {
+        // $dataProductFrozen = DB::table('tbl_product')
+        //     ->where('stock', '>', 0)
+        //     ->where('remark', 3) // Frozen Food
+        //     ->groupBy('tbl_product.group')
+        //     ->get();
+
         $dataProductFrozen = DB::table('tbl_product')
-            ->where('stock', '>', 0)
-            ->where('remark', 3) // Frozen Food
+            ->where('stock', '>', 0) // Produk dengan stok lebih dari 0
+            ->where('remark', 3) // Produk Frozen Food
+            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
 
+        // $dataProductKita = DB::table('tbl_product')
+        //     ->where('stock', '>', 0)
+        //     ->where('remark', 1) // Produk Kita
+        //     ->groupBy('tbl_product.group')
+        //     ->get();
+
         $dataProductKita = DB::table('tbl_product')
-            ->where('stock', '>', 0)
             ->where('remark', 1) // Produk Kita
+            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
+
 
         $textMessage = "📢 *STOK BARANG " . date("d/m/Y") . "* \n";
 
@@ -508,12 +521,12 @@ class TransactionController extends Controller
     public function sendReportLowStock()
     {
         $dataProduct = DB::table('tbl_product')
-            ->where('stock', '>', 0)
             ->where('stock', '<=', 5)
             ->where(function ($query) {
                 $query->where('remark', 1)
                     ->orWhere('remark', 3);
             })
+            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Tambahkan pengecualian kategori
             ->groupBy('tbl_product.group')
             ->get();
 
@@ -534,7 +547,7 @@ class TransactionController extends Controller
             CURLOPT_URL => 'https://api.fonnte.com/send',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => ['target' => '120363166640669368@g.us', 'message' => $message],
+            CURLOPT_POSTFIELDS => ['target' => '120363144769894007@g.us', 'message' => $message],
             CURLOPT_HTTPHEADER => ["Authorization: $token"],
         ]);
         $response = curl_exec($curl);
