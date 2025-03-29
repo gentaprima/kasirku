@@ -100,8 +100,10 @@ class DashboardController extends Controller
 
     public function stock()
     {
-        $dataStock = DB::table('tbl_product')
+        $dataStock = DB::table('tbl_product')->whereIn('product_category',['Makanan','Minuman','Bahan'])
             ->groupBy('tbl_product.group')->get();
+
+        // var_dump($dataStock);die;
 
         $data['stock'] = $dataStock;
         return view('data-stock', $data);
