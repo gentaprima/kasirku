@@ -196,7 +196,7 @@ class ProductController extends Controller
     // API
     public function getProduct(Request $request)
     {
-        if ($request->category == "Makanan") {
+        if ($request->category == "Makanan" || $request->category == "Minuman") {
             $data = DB::table('tbl_product')
                 ->where(function ($query) use ($request) {
                     $query->where('product_category', '=', $request->category)
