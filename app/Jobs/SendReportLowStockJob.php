@@ -47,7 +47,7 @@ class SendReportLowStockJob implements ShouldQueue
                 $query->where('remark', 1)
                     ->orWhere('remark', 3);
             })
-            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Tambahkan pengecualian kategori
+            ->whereNotIn('product_category', ['Produk komponen','Produk komponen 2' ,'Non stock']) // Tambahkan pengecualian kategori
             ->groupBy('tbl_product.group')
             ->get();
 

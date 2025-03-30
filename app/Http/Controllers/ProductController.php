@@ -196,7 +196,7 @@ class ProductController extends Controller
     // API
     public function getProduct(Request $request)
     {
-        if ($request->category == "Makanan" || $request->category == "Minuman") {
+        if ($request->category == "Makanan") {
             $data = DB::table('tbl_product')
                 ->where(function ($query) use ($request) {
                     $query->where('product_category', '=', $request->category)
@@ -204,8 +204,15 @@ class ProductController extends Controller
                 })
                 ->where('product_name', 'like', '%' . $request->search . '%')
                 ->paginate(10);
+        } else if ($request->category == "Minuman") {
+            $data = DB::table('tbl_product')
+                ->where(function ($query) use ($request) {
+                    $query->where('product_category', '=', $request->category)
+                        ->orWhere('product_category', '=', "Produk komponen 2");
+                })
+                ->where('product_name', 'like', '%' . $request->search . '%')
+                ->paginate(10);
         } else {
-
             $data = DB::table('tbl_product')
                 ->where('product_category', '=', $request->category)
                 ->where('product_name', 'like', '%' . $request->search . '%')->paginate(10);

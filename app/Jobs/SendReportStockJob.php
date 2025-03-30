@@ -33,7 +33,7 @@ class SendReportStockJob implements ShouldQueue
     {
         $dataProductFrozen = DB::table('tbl_product')
             ->where('remark', 3) // Produk Frozen Food
-            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
+            ->whereNotIn('product_category', ['Produk komponen','Produk komponen 2', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
 
@@ -50,7 +50,7 @@ class SendReportStockJob implements ShouldQueue
         //     ->get();
         $dataProductKita = DB::table('tbl_product')
             ->where('remark', 1) // Produk Kita
-            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
+            ->whereNotIn('product_category', ['Produk komponen','Produk komponen 2', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
 
