@@ -52,17 +52,19 @@ class LoginController extends Controller
         $getData = ModelUsers::where('email',$request->email)->first();
 
         if($getData == null){
-            Session::flash('message', 'Mohon maaf, Akun tidak ditemukan.'); 
-            Session::flash('icon', 'error'); 
-            return redirect()->back()
-                            ->withInput($request->input());
+            return response()->json([
+                'status' => false,
+                'message' => "Mohon maaf akun tidak ditemukan.",
+            ]);
         }
 
         if(!Hash::check($request->password, $getData->password)){
             Session::flash('message', 'Mohon maaf, Email atau Password tidak sesuai.'); 
             Session::flash('icon', 'error');
-            return redirect()->back()
-                                ->withInput($request->input());
+            return response()->json([
+                'status' => false,
+                'message' => "Mohon maaf, Email atau Password tidak sesuai.",
+            ]);
         }
 
         return response()->json([
