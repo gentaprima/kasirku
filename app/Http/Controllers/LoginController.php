@@ -47,4 +47,31 @@ class LoginController extends Controller
         Session::put('login', true);
         return redirect('/beranda');
     }
+
+    public function loginApi(Request $request){
+        $getData = ModelUsers::where('email',$request->email)->first();
+
+        if($getData == null){
+            Session::flash('message', 'Mohon maaf, Akun tidak ditemukan.'); 
+            Session::flash('icon', 'error'); 
+            return redirect()->back()
+                            ->withInput($request->input());
+        }
+
+        if(!Hash::check($request->password, $getData->password)){
+            Session::flash('message', 'Mohon maaf, Email atau Password tidak sesuai.'); 
+            Session::flash('icon', 'error');
+            return redirect()->back()
+                                ->withInput($request->input());
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => "successfully login.",
+            'data' => $getData
+        ]);
+
+
+
+    }
 }
