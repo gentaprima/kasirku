@@ -311,4 +311,20 @@ class ProductController extends Controller
             'data'      => $data,
         ]);
     }
+
+    public function getStock(Request $request)
+    {
+        $dataStock = DB::table('tbl_product')
+            ->when(request('search'), function ($query) {
+                $query->where('tbl_product.group', 'like', '%' . request('search') . '%');
+            })
+            ->whereIn('product_category', ['Makanan', 'Minuman', 'Bahan'])
+            ->groupBy('tbl_product.group')
+            ->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data' => $dataStock
+        ]);
+    }
 }

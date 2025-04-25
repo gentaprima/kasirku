@@ -32,9 +32,9 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card p-4 rounded mb-3">
-                <!-- <div class="row">
+                <div class="row">
                     <div class="col-6">
-                        <button class="btn btn-outline-primary size-btn" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button>
+                        <!-- <button class="btn btn-outline-primary size-btn" onclick="addData()" data-toggle="modal" data-target="#modal-form">Tambah Data</button> -->
                     </div>
                     <div class="col-6">
                         <div class="input-group mb-3 search">
@@ -44,8 +44,8 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
-                <table id="example1" class="table table-bordered table-striped">
+                </div>
+                <table id="table-stock" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -55,31 +55,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i = 1; ?>
-                        <?php foreach ($stock as $row) { ?>
-                            <tr>
-                                <td><?= $i++; ?></td>
-                                <td><?= $row->group; ?> </td>
-                                <td class="font-weight-bold"><?= $row->stock; ?> Pcs</td>
-                                <td>
-                                    <button onclick="updateData('<?= $row->id ?>','<?= $row->product_name ?>','<?= $row->stock ?>','<?= $row->remaining_stock ?>','<?= $row->group ?>')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
-                                    <!-- <button type="button" onclick="deleteData('<?= $row->id ?>')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button> -->
-                                </td>
-                            </tr>
-                        <?php } ?>
+
                     </tbody>
 
                 </table>
-                <!-- <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                    <ul class="pagination">
-                        <li>Halaman</li>
-                        <li class="paginate_button active mr-2"><a href="#" aria-controls="example1" id="current_page" data-dt-idx="1" tabindex="0">1</a></li>
-                        <li>Dari</li>
-                        <li class="ml-2" id="total_page"></li>
-                        <li class="paginate_button next prev" id="example1_previous"><a href="#" aria-controls="example1" id="link_prev" data-dt-idx="0" tabindex="0"><i class="fa fa-chevron-left"></i></a></li>
-                        <li class="paginate_button next" id="example1_next"><a id="link_next" href="" aria-controls="example1" data-dt-idx="2" tabindex="0"><i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
-                </div> -->
+                <div id="loading" style="display: none; text-align: center; padding: 1rem;">
+                    <span class="spinner-border text-danger" role="status"></span>
+                    <span style="margin-left: 0.5rem;">Memuat data...</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                            Showing 1 to 10 of 0 entries
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers d-flex justify-content-end" id="example1_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button page-item previous disabled" id="example1_previous">
+                                    <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                </li>
+                                <li class="paginate_button page-item active">
+                                    <a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                                </li>
+                                <li class="paginate_button page-item next" id="example1_next">
+                                    <a href="#" aria-controls="example1" data-dt-idx="8" tabindex="0" class="page-link">Next</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div><!-- /.container-fluid -->
     </section>
@@ -250,70 +257,80 @@
         }.bind(this), 800);
     });
 
-    function loadData(page, search = '') {
-        $("#table tbody").empty();
+    // Pagination click handler
+    $(document).on('click', '.page-link', function(e) {
+        e.preventDefault();
+        const page = $(this).data('page');
+        if (!$(this).parent().hasClass('disabled') && page) {
+            loadData(page);
+        }
+    });
+
+    function loadData(page = 1, search = '') {
+        $("#table-stock tbody").empty();
+        $("#loading").show();
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: `/show-product?page=${page}&search=${search}`,
+            url: `/api/get-stock?page=${page}&search=${search}`,
             success: function(response) {
-                let data = response;
-                let k = 1;
-                if (data.data.current_page > 1) {
-                    k = ((data.data.current_page * 10) - 10) + 1
-                }
-                let linkBanner = data.data.linkBanner
+                let data = response.data.data; // asumsi: data berisi array stok
+                let pagination = response.data; // untuk current_page, last_page, total, per_page
 
-                // set pagination
-                let buttonPrev = document.getElementById("link_prev")
-                buttonPrev.href = "#"
-                if (data.data.current_page == 1) {
-                    $("#example1_previous").addClass("paginate_button next prev disabledd")
-                    buttonPrev.removeAttribute("onclick")
+                // Render rows
+                if (data.length > 0) {
+                    data.forEach((item, index) => {
+                        $("#table-stock tbody").append(`
+                        <tr>
+                            <td>${(pagination.current_page - 1) * pagination.per_page + index + 1}</td>
+                            <td>${item.group}</td>
+                            <td>${item.stock}</td>
+                            <td><button onclick="updateData('${item.id}','${item.product_name}','${item.stock}','${item.remaining_stock}','${item.group}')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button></td>
+                        </tr>
+                    `);
+                    });
                 } else {
-                    $("#example1_previous").removeClass("disabledd")
-                    buttonPrev.setAttribute("onclick", `loadData(${data.data.current_page - 1})`)
+                    $("#table-stock tbody").append(`
+                    <tr><td colspan="4" class="text-center">Tidak ada data</td></tr>
+                `);
                 }
 
-                let buttonNext = document.getElementById("link_next")
-                buttonNext.href = "#"
-                if (data.data.current_page == data.data.last_page) {
-                    $("#example1_next").addClass("paginate_button next prev disabledd")
-                    buttonNext.removeAttribute("onclick")
-                } else {
-                    buttonNext.setAttribute("onclick", ``)
-                    $("#example1_next").removeClass("disabledd")
-                    buttonNext.setAttribute("onclick", `loadData(${data.data.current_page + 1})`)
+                // Update info
+                const start = (pagination.current_page - 1) * pagination.per_page + 1;
+                const end = start + data.length - 1;
+                $('#example1_info').text(`Showing ${start} to ${end} of ${pagination.total} entries`);
+
+                // Render pagination
+                let paginationHTML = '';
+
+                // Previous button
+                paginationHTML += `
+                <li class="paginate_button page-item ${pagination.current_page === 1 ? 'disabled' : ''}">
+                    <a href="#" class="page-link" data-page="${pagination.current_page - 1}">Previous</a>
+                </li>
+            `;
+
+                // Numbered pages
+                for (let i = 1; i <= pagination.last_page; i++) {
+                    paginationHTML += `
+                    <li class="paginate_button page-item ${i === pagination.current_page ? 'active' : ''}">
+                        <a href="#" class="page-link" data-page="${i}">${i}</a>
+                    </li>
+                `;
                 }
 
-                document.getElementById("current_page").innerHTML = data.data.current_page
-                document.getElementById("total_page").innerHTML = data.data.last_page
+                // Next button
+                paginationHTML += `
+                <li class="paginate_button page-item ${pagination.current_page === pagination.last_page ? 'disabled' : ''}">
+                    <a href="#" class="page-link" data-page="${pagination.current_page + 1}">Next</a>
+                </li>
+            `;
 
-                // set pagination
+                $('#example1_paginate ul.pagination').html(paginationHTML);
 
-
-                for (let i = 0; i < data.data.data.length; i++) {
-                    var tr = $("<tr>");
-                    tr.append("<td>" + k++ + "</td>");
-                    tr.append("<td>" + data.data.data[i].product_name + "</td>");
-                    tr.append("<td>" + data.data.data[i].price + "</td>");
-                    tr.append(`<td> <span class='badge badge-secondary'>${data.data.data[i].product_category}</span></td>`);
-                    if (data.data.data[i].is_active == 1) {
-                        tr.append("<td> <span class='badge badge-success'>Aktif</span></td>");
-                    } else {
-                        tr.append("<td> <span class='badge badge-danger'>Tidak Aktif</span></td>");
-
-                    }
-
-                    tr.append(` <td><span class='badge badge-secondary badge-photo' onclick="showImage('${data.data.data[i].photo}','${data.linkPhoto}')" data-target="#modal-image" data-toggle="modal">Lihat Foto</span></td>`);
-
-                    tr.append(`
-                    <td>
-                    <button onclick="updateData('${data.data.data[i].id}','${data.data.data[i].product_name}','${data.data.data[i].product_category}','${data.data.data[i].price}','${data.data.data[i].is_active}','${data.data.data[i].photo}','${data.data.data[i].group}')" type="button" data-target="#modal-form" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-edit"></i></button>
-                    <button type="button" onclick="deleteData('${data.data.data[i].id}')" data-target="#modal-delete" data-toggle="modal" class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
-                    </td>`)
-                    $("#table tbody").append(tr);
-                }
+            },
+            complete: function() {
+                $("#loading").hide(); // Sembunyikan loading setelah selesai
             }
         })
     }
@@ -340,6 +357,7 @@
                         icon: "success",
                         title: response.message
                     });
+                    loadData(1);
                 } else {
                     Toast.fire({
                         icon: "error",
@@ -365,6 +383,7 @@
 
     function updateData(id, productName, stock, remainingStock, group) {
         document.getElementById("group").value = group;
+        document.getElementById("stock").value = "";
         document.getElementById("form").action = `/update-stock`;
         document.getElementById("titleModal").innerHTML = 'Tambah Stock';
 
