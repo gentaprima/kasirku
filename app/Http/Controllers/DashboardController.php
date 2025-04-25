@@ -183,6 +183,7 @@ class DashboardController extends Controller
         $dataHistory = DB::table('tbl_history_stock')
             ->whereYear('date', $tahun)  // 'tanggal' adalah kolom dengan tipe data DATE
             ->whereMonth('date', $bulan)
+            ->orderByDesc('id')
             ->get();
         $data['history'] = $dataHistory;
         $data['bulan'] = $formatBulan;
