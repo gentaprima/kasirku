@@ -15,7 +15,8 @@ VALUES
 (13, 'Indomie Rendang + Kornet', 'Makanan', 13000, 1, '', 'Indomie Rendang', 1.0, 6.0, 0, '1', 'Pcs'),
 (14, 'Indomie Rendang + Keju', 'Makanan', 12000, 1, '', 'Indomie Rendang', 1.0, 6.0, 0, '1', 'Pcs'),
 (15, 'Internet Rendang', 'Makanan', 16000, 1, '', 'Indomie Rendang', 1.0, 6.0, 0, '1', 'Pcs'),
-(16, 'Indomie Soto', 'Makanan', 8000, 1, '', 'Indomie Soto', 1.0, 24.0, 0, '1', 'Pcs'),
+(16, 'Indomie Soto', 'Makanan', 8000, 1, '', '
+Indomie Soto', 1.0, 24.0, 0, '1', 'Pcs'),
 (17, 'Indomie Soto Telor', 'Makanan', 11000, 1, '', 'Indomie Soto', 1.0, 24.0, 0, '1', 'Pcs'),
 (18, 'Indomie Soto Double', 'Makanan', 15000, 1, '', 'Indomie Soto', 1.0, 24.0, 0, '1', 'Pcs'),
 (19, 'Indomie Soto Double + Telor', 'Makanan', 18000, 1, '', 'Indomie Soto', 1.0, 24.0, 0, '1', 'Pcs'),

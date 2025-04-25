@@ -135,7 +135,7 @@ use Illuminate\Support\Facades\Session;
                         </table>
                         <hr>
                         <p style="display: none;" id="totalInput"></p>
-                        <button class="btn btn-primary" onClick="addTranscation()">Process</button>
+                        <button class="btn btn-primary" onClick="addTranscation(this)">Process</button>
                     </div>
                 </div>
             </div>
@@ -570,9 +570,13 @@ use Illuminate\Support\Facades\Session;
         $("#idMakanan").val(id)
     }
 
-    function addTranscation() {
+    function addTranscation(button) {
         var idUsers = $("#idUsers").html();
         var total = $("#totalInput").html();
+        var btn = $(button);
+        var originalText = btn.html(); // Simpan teks asli tombol
+        btn.html('<span class="spinner-border spinner-border-sm"></span> Loading...')
+            .prop("disabled", true);
 
         $.ajax({
             dataType: 'json',
@@ -591,6 +595,16 @@ use Illuminate\Support\Facades\Session;
                     });
                     getCart();
                 }
+            },
+            error : function(){
+                Toast.fire({
+                    icon: "error",
+                    title: "Terjadi kesalahan, coba lagi!"
+                });
+            },
+            complete: function() {
+                // Kembalikan tombol ke kondisi semula setelah request selesai
+                btn.html(originalText).prop("disabled", false);
             }
         })
     }
