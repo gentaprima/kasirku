@@ -185,7 +185,7 @@
 }
 
 #example1_paginate {
-    display: none;
+    /* display: none; */
 }
 
 #example2_paginate {
@@ -194,21 +194,21 @@
 }
 
 .paginate_button.next>a {
-    margin-left: 8px;
-    background-color: #001f3f !important;
-    border-radius: 4px !important;
+    /* margin-left: 8px; */
+    /* background-color: #001f3f !important; */
+    /* border-radius: 4px !important; */
     color: #fff;
-    padding: 5px 8px 5px 8px;
+    /* padding: 5px 8px 5px 8px; */
 }
 
 .paginate_button.active>a {
     background-color: #80cee1 !important;
-    border-radius: 4px;
-    margin-left: 8px;
+    /* border-radius: 4px; */
+    /* margin-left: 8px;
     height: 32px;
     width: 32px;
-    color: #fff;
-    padding: 5px 8px 5px 8px;
+    color: #fff; */
+    /* padding: 5px 8px 5px 8px; */
 }
 
 .paginate_button.next>a>i {
@@ -232,11 +232,11 @@
 }
 
 .paginate_button.previous {
-    margin-right: 8px !important;
+    /* margin-right: 8px !important;
     border: none !important;
     font-weight: bold !important;
     color: #eee !important;
-    background-color: #001f3f !important;
+    background-color: #001f3f !important; */
 }
 
 .paginate_button.previous>a:hover {
