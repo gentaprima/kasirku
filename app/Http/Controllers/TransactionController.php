@@ -478,19 +478,24 @@ class TransactionController extends Controller
 
         $dataProductFrozen = DB::table('tbl_product')
             ->where('remark', 3) // Produk Frozen Food
-            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
+            ->whereNotIn('product_category', ['Produk komponen', 'Produk komponen 2', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
+
+        // $dataProductFrozen = DB::table('tbl_product')
+        //     ->where('stock', '>', 0)
+        //     ->where('remark', 3) // Frozen Food
+        //     ->groupBy('tbl_product.group')
+        //     ->get();
 
         // $dataProductKita = DB::table('tbl_product')
         //     ->where('stock', '>', 0)
         //     ->where('remark', 1) // Produk Kita
         //     ->groupBy('tbl_product.group')
         //     ->get();
-
         $dataProductKita = DB::table('tbl_product')
             ->where('remark', 1) // Produk Kita
-            ->whereNotIn('product_category', ['Produk komponen', 'Non stock']) // Mengecualikan kategori tertentu
+            ->whereNotIn('product_category', ['Produk komponen', 'Produk komponen 2', 'Non stock']) // Mengecualikan kategori tertentu
             ->groupBy('tbl_product.group')
             ->get();
 
@@ -525,9 +530,10 @@ class TransactionController extends Controller
                 $query->where('remark', 1)
                     ->orWhere('remark', 3);
             })
-            ->whereNotIn('product_category', ['Produk komponen','Produk komponen 2' ,'Non stock']) // Tambahkan pengecualian kategori
+            ->whereNotIn('product_category', ['Produk komponen', 'Produk komponen 2', 'Non stock']) // Tambahkan pengecualian kategori
             ->groupBy('tbl_product.group')
             ->get();
+            
 
         $textMessage = "📢 *STOCK TINGGAL DIKIT NICHHHH* \n\n";
 
@@ -546,7 +552,7 @@ class TransactionController extends Controller
             CURLOPT_URL => 'https://api.fonnte.com/send',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => ['target' => '120363166640669368@g.us', 'message' => $message],
+            CURLOPT_POSTFIELDS => ['target' => '120363144769894007@g.us', 'message' => $message],
             CURLOPT_HTTPHEADER => ["Authorization: $token"],
         ]);
         $response = curl_exec($curl);
