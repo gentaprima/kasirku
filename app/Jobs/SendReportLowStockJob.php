@@ -61,7 +61,7 @@ class SendReportLowStockJob implements ShouldQueue
 
     private function sendToFonnte($message)
     {
-        $token = "GJT6zWdjCzLQtkE23ktc";
+        $token = "PuFfsE4GYJoPzfMgznpw";
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_URL => 'https://api.fonnte.com/send',
