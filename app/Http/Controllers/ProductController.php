@@ -150,6 +150,7 @@ class ProductController extends Controller
     {
         $satuan = $request->satuan;
         $stockIncoming = $request->stock;
+
         if ($satuan == null) {
             return response()->json([
                 'message' => "Satuan tidak boleh kosong",
@@ -175,17 +176,26 @@ class ProductController extends Controller
 
         $product = DB::table("tbl_product")->where('group', '=', $request->group)->first();
 
-        DB::table('tbl_product')
-            ->where('tbl_product.group', '=', $request->group)
-            ->update([
-                'stock' => $product->stock + $stock
-            ]);
+        if ($request->addStock == 1) {
+            DB::table('tbl_product')
+                ->where('tbl_product.group', '=', $request->group)
+                ->update([
+                    'stock' => $product->stock + $stock
+                ]);
 
-        HistoryStock::create([
-            'product_name'  => $product->group,
-            'incoming_stock' => $stock,
-            'date' => date('Y-m-d')
-        ]);
+            HistoryStock::create([
+                'product_name'  => $product->group,
+                'incoming_stock' => $stock,
+                'date' => date('Y-m-d')
+            ]);
+        }else{
+            DB::table('tbl_product')
+                ->where('tbl_product.group', '=', $request->group)
+                ->update([
+                    'stock' =>$stock
+                ]);
+        }
+
 
         return response()->json([
             'message' => "Stock berhasil ditambahkan ",

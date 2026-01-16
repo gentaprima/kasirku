@@ -100,7 +100,7 @@ class DashboardController extends Controller
 
     public function stock()
     {
-        $dataStock = DB::table('tbl_product')->whereIn('product_category',['Makanan','Minuman','Bahan'])
+        $dataStock = DB::table('tbl_product')->whereIn('product_category', ['Makanan', 'Minuman', 'Bahan'])
             ->groupBy('tbl_product.group')->get();
 
         // var_dump($dataStock);die;
@@ -205,5 +205,32 @@ class DashboardController extends Controller
         Artisan::call('view:clear');
         Artisan::call('route:clear');
         echo "Cache cleared!";
+    }
+
+    public function getHistoryStockIn(Request $request)
+    {
+        $filter = $request->bulan;
+        if ($filter == null) {
+            $bulan = date('m');
+            $tahun = date('Y');
+        } else {
+            $split = explode('-', $filter);
+            $bulan = $split[1];
+            $tahun = $split[0];
+        }
+        $filter = $request->bulan;
+        if ($filter == null) {
+            $bulan = date('m');
+            $tahun = date('Y');
+        } else {
+            $split = explode('-', $filter);
+            $bulan = $split[1];
+            $tahun = $split[0];
+        }
+        $formatBulan = DateTime::createFromFormat('!m', $bulan)->format('F') . ' ' . $tahun;
+        $results = DB::select('CALL sp_get_monthly_stock_history(?, ?)', [$tahun, $bulan]);
+        $data['bulan'] = $formatBulan;
+        $data['history'] = $results;
+        return view('data-history-stock-in', $data);
     }
 }

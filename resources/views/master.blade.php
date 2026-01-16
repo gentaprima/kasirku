@@ -56,6 +56,7 @@ use Illuminate\Support\Facades\Session;
     .navbar-nav li a {
       color: #fff !important;
     }
+
     /* new */
     .search-container {
       position: relative;
@@ -112,7 +113,7 @@ use Illuminate\Support\Facades\Session;
     .search-container-minuman .clear-btn-minuman:hover {
       color: #555;
     }
-    
+
     .search-container-topping {
       position: relative;
       display: inline-block;
@@ -229,21 +230,29 @@ use Illuminate\Support\Facades\Session;
               </a>
             </li>
             <li class="nav-item">
-              <a href="/data-produk" class="nav-link {{ Request::is('data-produk') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-list"></i>
+              <a href="#" class="nav-link {{ Request::is('data-produk') || Request::is('data-produk-komponen') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-box"></i>
                 <p>
                   Produk
+                  <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/data-produk" class="nav-link {{ Request::is('data-produk') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>Daftar Produk</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/data-produk-komponen" class="nav-link {{ Request::is('data-produk-komponen') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>Daftar Produk Komponen</p>
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a href="/data-produk-komponen" class="nav-link {{ Request::is('data-produk-component') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-list"></i>
-                <p>
-                  Produk Komponen
-                </p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="/input-barang" class="nav-link {{ Request::is('input-barang') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-edit"></i>
@@ -271,13 +280,35 @@ use Illuminate\Support\Facades\Session;
               </a>
             </li>
             <li class="nav-item">
-              <a href="/history-stock" class="nav-link {{ Request::is('history-stock') ||  Request::is('history-stock') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-clock"></i>
+              <a href="#" class="nav-link {{ Request::is('history-stock') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-boxes"></i>
                 <p>
-                  History Stock
+                  Stock
+                  <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/history-stock" class="nav-link {{ Request::is('history-stock') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-clock"></i>
+                    <p>History Stock</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/history-stock-in" class="nav-link {{ Request::is('history-stock-in') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-arrow-down"></i>
+                    <p>Stok Masuk</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/stock-keluar" class="nav-link {{ Request::is('stock-keluar') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-arrow-up"></i>
+                    <p>Stok Keluar</p>
+                  </a>
+                </li>
+              </ul>
             </li>
+
 
 
 
@@ -392,7 +423,8 @@ use Illuminate\Support\Facades\Session;
         "searching": true, // Aktifkan pencarian
         "info": true, // Tampilkan info jumlah data
         "autoWidth": false, // Hindari lebar kolom otomatis
-        "responsive": true
+        "responsive": true,
+        "pageLength": 100,
         // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       $('#example2').DataTable({

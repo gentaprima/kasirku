@@ -124,6 +124,29 @@
                             <input type="text" name="stock" id="stock" class="form-control">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-2">Pilihan Stock ?</label>
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" required name="categoryStock" value="1" id="radioStatus1">
+                                        <label for="radioStatus1">
+                                            Tambah Stock
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" required name="categoryStock" value="0" id="radioStatus2">
+                                        <label for="radioStatus2">
+                                            Perbaiki Stock
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
             </div>
@@ -340,6 +363,16 @@
         var product = $("#group").val();
         var satuan = $("#satuan").val();
         var stock = $("#stock").val();
+        const selectStock = document.querySelector('input[name="categoryStock"]:checked');
+        if (selectStock) {
+            var valueSelectStock = selectStock.value
+        } else {
+            Toast.fire({
+                icon: "error",
+                title: "Silahkan pilih kategori penambahan stock terlebih dahulu."
+            });
+             $("#btnStock").prop("disabled", false).html("Submit");
+        }
         $.ajax({
             type: 'post',
             dataType: 'json',
@@ -348,7 +381,8 @@
             data: JSON.stringify({ // Data yang dikirim ke API
                 satuan: satuan,
                 stock: stock,
-                group: product
+                group: product,
+                addStock: valueSelectStock
             }),
             success: function(response) {
 

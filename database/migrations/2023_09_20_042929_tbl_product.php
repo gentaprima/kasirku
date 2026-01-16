@@ -22,6 +22,8 @@ class TblProduct extends Migration
             $table->string('photo')->nullable();
             $table->string('group');
             $table->integer('stock_reduction');
+            $table->integer('stock');
+            $table->integer('remaining_stock');
         });
     }
 

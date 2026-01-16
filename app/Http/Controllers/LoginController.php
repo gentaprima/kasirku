@@ -35,12 +35,12 @@ class LoginController extends Controller
                                 ->withInput($request->input());
         }
 
-        if($getData->role == 0){
-            Session::flash('message', 'Mohon maaf, anda tidak memiliki akses ke halaman ini.'); 
-            Session::flash('icon', 'error`');
-            return redirect()->back()
-                                ->withInput($request->input());
-        }
+        // if($getData->role == 0){
+        //     Session::flash('message', 'Mohon maaf, anda tidak memiliki akses ke halaman ini.'); 
+        //     Session::flash('icon', 'error`');
+        //     return redirect()->back()
+        //                         ->withInput($request->input());
+        // }
 
 
         Session::put('dataUsers',$getData);
